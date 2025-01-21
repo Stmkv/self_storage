@@ -3,17 +3,17 @@ from django.db import models
 
 class Warehouse(models.Model):
     address = models.CharField(max_length=100, unique=True)
-    total_area = models.FloatField(help_text='Общая площадь ангара в квадратных метрах')
+    total_area = models.FloatField(help_text='Общая площадь склада в квадратных метрах')
     number_of_boxes = models.PositiveIntegerField(default=0)
     description = models.TextField(blank=True, null=True)
     creation_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name = 'Ангар'
-        verbose_name_plural = 'Ангары'
+        verbose_name = 'Склад'
+        verbose_name_plural = 'Склады'
 
     def __str__ (self):
-        return f'Ангар по адресу {self.address}'
+        return f'Склад по адресу {self.address}'
 
 
 class Box(models.Model):
