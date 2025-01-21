@@ -20,7 +20,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "storage.apps.StorageConfig",
+    "users.apps.UsersConfig",
 ]
+AUTH_USER_MODEL = "users.CustomUser"
+LOGIN_REDIRECT_URL = "/my-rent/"
+LOGOUT_REDIRECT_URL = "/"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
