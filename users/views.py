@@ -12,6 +12,7 @@ from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.http import urlsafe_base64_encode
+from django.views.decorators.http import require_POST
 from phonenumber_field.phonenumber import PhoneNumber
 
 from users.models import CustomUser
@@ -66,6 +67,19 @@ def logout_view(request):
     if request.user.is_authenticated:
         logout(request)
     return redirect(reverse("storage:index"))
+
+
+@login_required
+@require_POST
+def upload_avatar(request):
+    user = CustomUser.objects.get(email=request.user.email)
+    if request.FILES.get("avatar"):
+        avatar = request.FILES["avatar"]
+        user.avatar = avatar
+        user.save()
+        return JsonResponse({"success": True, "redirect_url": "/users/my-rent/"})
+
+    return JsonResponse({"success": False, "errors": {"avatar": ["Файл не выбран"]}})
 
 
 @login_required

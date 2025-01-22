@@ -1,5 +1,7 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
-from django.urls import path, reverse_lazy
+from django.urls import path
 
 from .views import (
     edit_profile,
@@ -8,6 +10,7 @@ from .views import (
     my_rent_view,
     password_reset,
     register_view,
+    upload_avatar,
 )
 
 app_name = "users"
@@ -32,4 +35,5 @@ urlpatterns = [
         ),
         name="password_reset_complete",
     ),
-]
+    path("upload_avatar/", upload_avatar, name="upload-avatar"),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
