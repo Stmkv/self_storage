@@ -35,6 +35,6 @@ class AboutUsAdmin(admin.ModelAdmin):
 
 @admin.register(Text)
 class TextAdmin(admin.ModelAdmin):
-    list_display = ('title', 'text',)
+    list_display = ('title', 'question', 'answer')
     search_fields = ('title',)
     list_filter = ('title',)
