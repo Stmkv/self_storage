@@ -6,16 +6,18 @@ from users.models import CustomUser
 class Warehouse(models.Model):
     address = models.CharField(max_length=100, unique=True)
     temperature = models.IntegerField(verbose_name="Температура на складе")
-    celling_height = models.DecimalField(max_digit=5, decimical_places=2, verbose_name="Высота потолка")
-    number_of_boxes = models.PositiveIntegerField(default=0)
+    celling_height = models.DecimalField(max_digits=5, decimal_places=2, verbose_name="Высота потолка")
+    total_boxes = models.PositiveIntegerField(default=0, verbose_name="Всего боксов")
+    available_boxes = models.PositiveIntegerField(verbose_name="Доступные боксы")
     creation_date = models.DateTimeField(auto_now_add=True)
+    price_per_month = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена за месяц от")
 
     class Meta:
         verbose_name = "Склад"
         verbose_name_plural = "Склады"
 
     def __str__(self):
-        return f"Склад по адресу {self.address}"
+        return self.name
 
 
 class Box(models.Model):
