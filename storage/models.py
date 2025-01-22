@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import CustomUser
+
 
 class Warehouse(models.Model):
     address = models.CharField(max_length=100, unique=True)
@@ -68,7 +70,10 @@ class Order(models.Model):
     start_storage = models.DateTimeField("начало хранения")
     end_storage = models.DateTimeField("конец хранения")
     client = models.ForeignKey(
-        Client, verbose_name="клиент", on_delete=models.CASCADE, related_name="orders"
+        CustomUser,
+        verbose_name="клиент",
+        on_delete=models.CASCADE,
+        related_name="orders",
     )
     date = models.DateField(auto_now_add=True)
     address = models.TextField("адрес")
