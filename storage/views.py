@@ -1,10 +1,15 @@
 from django.shortcuts import render
 
+from storage.models import Warehouse
+
 
 # Create your views here.
 def boxes(request):
+    warehouses = Warehouse.objects.all()
     context = {
+
         "user_auth": request.user.is_authenticated,
+        "warehouses": warehouses,
     }
     return render(request, "boxes.html", context)
 
