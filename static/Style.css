@@ -152,3 +152,14 @@ body {
 .z-index-1 {
   z-index: -1;
 }
+.reset-password-comfirm-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 100px;
+}
+.form-change-password {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
