@@ -9,6 +9,7 @@ class Warehouse(models.Model):
     number_of_boxes = models.PositiveIntegerField(default=0, verbose_name="Всего боксов")
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     price_per_month = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена за месяц от")
+    image = models.ImageField(verbose_name="Изображение")
 
     class Meta:
         verbose_name = "Склад"

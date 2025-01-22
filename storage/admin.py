@@ -5,7 +5,7 @@ from storage.models import Warehouse, Box
 
 @admin.register(Warehouse)
 class WarehouseAdmin(admin.ModelAdmin):
-    list_display = ('address', 'number_of_boxes', 'creation_date')
+    list_display = ('city', 'address', 'number_of_boxes', 'creation_date')
     search_fields = ('address',)
     list_filter = ('creation_date',)
     ordering = ('-creation_date',)
