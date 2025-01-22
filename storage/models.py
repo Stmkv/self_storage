@@ -10,6 +10,8 @@ class Warehouse(models.Model):
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     price_per_month = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена за месяц от")
     image = models.ImageField(verbose_name="Изображение")
+    description = models.CharField(max_length=200, verbose_name="Описание (например Рядом с метро)")
+
 
     class Meta:
         verbose_name = "Склад"
