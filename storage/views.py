@@ -1,18 +1,30 @@
 from django.shortcuts import render
 
+
 # Create your views here.
 def boxes(request):
-    return render(request, 'boxes.html')
+    return render(request, "boxes.html")
 
 
 def faq(request):
-    return render(request, 'faq.html')
+    context = {
+        "user_auth": request.user.is_authenticated,
+    }
+    return render(request, "faq.html", context)
+
 
 def index(request):
-    return render(request, 'index.html')
+    context = {
+        "user_auth": request.user.is_authenticated,
+    }
+    if request.user.is_authenticated:
+        context["user"] = request.user
+    return render(request, "index.html", context)
+
 
 def my_rent(request):
-    return render(request, 'my-rent.html')
+    return render(request, "my-rent.html")
+
 
 def my_rent_empty(request):
-    return render(request, 'my-rent-empty.html')
+    return render(request, "my-rent-empty.html")
