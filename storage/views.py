@@ -1,4 +1,5 @@
 from django.shortcuts import render
+
 from storage.models import AboutUs
 
 
@@ -11,10 +12,10 @@ def boxes(request):
 
 
 def faq(request):
-    about_us_data = AboutUs.objects.all()
+    about_us_data = AboutUs.objects.prefetch_related("texts").all()
     context = {
         "user_auth": request.user.is_authenticated,
-        "about_us_data": about_us_data
+        "about_us_data": about_us_data,
     }
     return render(request, "faq.html", context)
 
