@@ -6,8 +6,13 @@
     <title>Boxes</title>
 {% endblock title %}
 {% block content %}
-    {% include "include/navbar.html" %}
+    {% if user_auth %}
+        {% include "include/navbar_reg.html" %}
 
+    {% else %}
+        {% include "include/navbar.html" %}
+
+    {% endif %}
     <main class="container mt-header">
         <article class="row">
             <div class="col-12 col-lg-6 mb-3 mb-lg-0">
