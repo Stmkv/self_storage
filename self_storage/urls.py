@@ -7,6 +7,7 @@ urlpatterns = [
     path("", include("storage.urls", namespace="storage")),
     path("admin/", admin.site.urls),
     path("users/", include("users.urls", namespace="users")),
+    path("users/", include("django.contrib.auth.urls")),
 ]
 if settings.DEBUG:
     urlpatterns = [path("__debug__/", include("debug_toolbar.urls"))] + urlpatterns

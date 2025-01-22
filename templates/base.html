@@ -131,15 +131,18 @@
                                 aria-label="Close"></button>
                     </div>
                     <div class="modal-body d-flex justify-content-center align-items-center">
-                        <form class="d-flex flex-column align-items-center"
+                        <form id="forgot-password-form"
+                              class="d-flex flex-column align-items-center"
                               style="max-width: 420px">
+                            {% csrf_token %}
                             <h1 class="modal-title text-center fw-bold mb-3">Восстановление пароля</h1>
                             <input type="email"
                                    required
                                    name="EMAIL_FORGET"
                                    class="form-control  border-8 mb-4 py-3 px-5 border-0 fs_24 SelfStorage__bg_lightgrey"
                                    placeholder="E-mail">
-                            <button class="btn border-8 py-3 px-5 mt-5 mb-3 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange">
+                            <button type="submit"
+                                    class="btn border-8 py-3 px-5 mt-5 mb-3 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange">
                                 Восстановить
                             </button>
                             <span>Вспомнили пароль?  <a href="#"
@@ -148,6 +151,12 @@
      data-bs-target="#SignModal"
      data-bs-dismiss="modal"
      aria-label="Close">Отмена</a></span>
+                            <div id="forgot-password-error"
+                                 class="text-danger mt-2"
+                                 style="display: none"></div>
+                            <div id="forgot-password-success"
+                                 class="text-success mt-2"
+                                 style="display: none"></div>
                         </form>
                     </div>
                 </div>
@@ -232,5 +241,6 @@
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
                 crossorigin="anonymous"></script>
         <script src="{% static 'js/auth.js' %}"></script>
+        <script src="{% static 'js/reset_password.js' %}"></script>
     </body>
 </html>
