@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from storage.models import AboutUs
 
 
 # Create your views here.
@@ -10,8 +11,10 @@ def boxes(request):
 
 
 def faq(request):
+    about_us_data = AboutUs.objects.all()
     context = {
         "user_auth": request.user.is_authenticated,
+        "about_us_data": about_us_data
     }
     return render(request, "faq.html", context)
 
