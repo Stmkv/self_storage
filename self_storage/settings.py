@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     "storage.apps.StorageConfig",
     "users.apps.UsersConfig",
     "debug_toolbar",
+    "phonenumber_field",
 ]
 AUTH_USER_MODEL = "users.CustomUser"
 LOGIN_REDIRECT_URL = "/my-rent/"

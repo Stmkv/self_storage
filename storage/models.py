@@ -76,7 +76,7 @@ class Order(models.Model):
         related_name="orders",
     )
     date = models.DateField(auto_now_add=True)
-    address = models.TextField("адрес")
+    address = models.TextField("адрес", null=True, blank=True)
     box = models.OneToOneField(Box, on_delete=models.CASCADE, null=True, blank=True)
     price = models.PositiveIntegerField("цена", null=True, blank=True)
     state = models.CharField(
