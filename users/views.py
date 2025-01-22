@@ -1,11 +1,7 @@
-import re
-from math import e
-
+import phonenumbers
 from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import PasswordResetForm
-from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
@@ -15,7 +11,8 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.utils.http import urlsafe_base64_encode
+from phonenumber_field.phonenumber import PhoneNumber
 
 from users.models import CustomUser
 
@@ -74,21 +71,32 @@ def logout_view(request):
 @login_required
 def edit_profile(request):
     user = CustomUser.objects.get(email=request.user.email)
+
     new_email = request.POST.get("EMAIL_EDIT")
+    new_phone_number = request.POST.get("PHONE_EDIT")
+
     try:
         validate_email(new_email)
     except ValidationError:
         return JsonResponse(
-            {
-                "success": False,
-                "errors": {"email": ["Неверный формат"]},
-            },
+            {"success": False, "errors": {"email": ["Неверный формат"]}},
             status=400,
         )
-    else:
-        user.email = request.POST.get("EMAIL_EDIT")
-        user.save()
-        return JsonResponse({"success": True, "redirect_url": "/my-rent/"})
+    try:
+        phone_number_obj = PhoneNumber.from_string(new_phone_number, region="RU")
+        if not phonenumbers.is_valid_number(phone_number_obj):
+            raise ValidationError("Неверный номер телефона")
+    except (phonenumbers.phonenumberutil.NumberParseException, ValidationError):
+        return JsonResponse(
+            {"success": False, "errors": {"phone": ["Неверный формат телефона"]}},
+            status=400,
+        )
+
+    user.email = new_email
+    user.phone_number = phone_number_obj
+    user.save()
+
+    return JsonResponse({"success": True, "redirect_url": "/my-rent/"})
 
 
 def password_reset(request):
