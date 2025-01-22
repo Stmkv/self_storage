@@ -40,32 +40,32 @@
                 id="boxes-links"
                 role="tablist">
                 {% for warehouse in warehouses %}
-                <li class="nav-item flex-grow-1 mx-2" role="presentation">
-                    <a href="#BOX"
-                       class="row text-decoration-none py-3 px-4 mt-5 SelfStorage__boxlink"
-                       id="pills-Moscow-tab"
-                       data-bs-toggle="pill"
-                       data-bs-target="#pills-Moscow"
-                       role="tab"
-                       aria-controls="pills-Moscow"
-                       aria-selected="true">
-                        <div class="col-12 col-lg-3 d-flex justify-content-center">
-                            <img src="{{ warehouse.image.url }}" alt="" class="mb-3 mb-lg-0">
-                        </div>
-                        <div class="col-12 col-md-4 col-lg-3 d-flex flex-column justify-content-center">
-                            <h4 class="text-center">{{ warehouse.city }}</h4>
-                            <h6 class="text-center">{{ warehouse.address }}</h6>
-                        </div>
-                        <div class="col-12 col-md-4 col-lg-3 d-flex flex-column justify-content-center">
-                            <h4 class="text-center">14  из {{ warehouse.number_of_boxes}}</h4>
-                            <h6 class="text-center">Боксов свободно</h6>
-                        </div>
-                        <div class="col-12 col-md-4 col-lg-3 d-flex flex-column justify-content-center">
-                            <h4 class="text-center SelfStorage_green">от {{ warehouse.price_per_month }} ₽</h4>
-                            <h6 class="text-center">{{ warehouse.description }}</h6>
-                        </div>
-                    </a>
-                </li>
+                    <li class="nav-item flex-grow-1 mx-2" role="presentation">
+                        <a href="#BOX"
+                        class="row text-decoration-none py-3 px-4 mt-5 SelfStorage__boxlink"
+                        id="pills-Moscow-tab"
+                        data-bs-toggle="pill"
+                        data-bs-target="#pills-Moscow"
+                        role="tab"
+                        aria-controls="pills-Moscow"
+                        aria-selected="true">
+                            <div class="col-12 col-lg-3 d-flex justify-content-center">
+                                <img src="{{ warehouse.image.url }}" alt="" class="mb-3 mb-lg-0">
+                            </div>
+                            <div class="col-12 col-md-4 col-lg-3 d-flex flex-column justify-content-center">
+                                <h4 class="text-center">{{ warehouse.city }}</h4>
+                                <h6 class="text-center">{{ warehouse.address }}</h6>
+                            </div>
+                            <div class="col-12 col-md-4 col-lg-3 d-flex flex-column justify-content-center">
+                                <h4 class="text-center">14  из {{ warehouse.number_of_boxes}}</h4>
+                                <h6 class="text-center">Боксов свободно</h6>
+                            </div>
+                            <div class="col-12 col-md-4 col-lg-3 d-flex flex-column justify-content-center">
+                                <h4 class="text-center SelfStorage_green">от {{ warehouse.price_per_month }} ₽</h4>
+                                <h6 class="text-center">{{ warehouse.description }}</h6>
+                            </div>
+                        </a>
+                    </li>
             {% endfor %}
             </ul>
             <script>
