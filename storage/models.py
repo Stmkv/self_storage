@@ -4,11 +4,9 @@ from users.models import CustomUser
 
 
 class Warehouse(models.Model):
-    city = models.CharField(max_length=20, verbose_name="Город")
-    address = models.CharField(max_length=100, unique=True, verbose_name="Адрес")
-    number_of_boxes = models.PositiveIntegerField(default=0, verbose_name="Всего боксов")
-    creation_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
-    price_per_month = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена за месяц от")
+    address = models.CharField(max_length=100, unique=True)
+    number_of_boxes = models.PositiveIntegerField(default=0)
+    creation_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = "Склад"
