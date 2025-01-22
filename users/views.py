@@ -56,3 +56,21 @@ def logout_view(request):
     if request.user.is_authenticated:
         logout(request)
     return redirect(reverse("storage:index"))
+
+
+@login_required
+def edit_profile(request):
+    user = CustomUser.objects.get(email=request.user.email)
+    new_email = request.POST.get("EMAIL_EDIT")
+    print(new_email)
+    if not new_email:
+        return JsonResponse(
+            {
+                "success": False,
+                "errors": {"email": ["Поле email не может быть пустым"]},
+            },
+            status=400,
+        )
+    user.email = request.POST.get("EMAIL_EDIT")
+    user.save()
+    return JsonResponse({"success": True, "redirect_url": "/my-rent/"})

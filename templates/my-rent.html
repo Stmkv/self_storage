@@ -44,7 +44,8 @@
                                 <h4>{{ user.email }}</h4>
                             </div>
                             <div class="col-12 col-sm-7 d-flex flex-column">
-                                <form>
+                                <form id="edit-form">
+                                    {% csrf_token %}
                                     <label class="fs_24 SelfStorage_green ms-2" for="EMAIL">E-mail</label>
                                     <input type="email"
                                            name="EMAIL_EDIT"
@@ -57,7 +58,7 @@
                                            name="PHONE_EDIT"
                                            id="PHONE"
                                            class="form-control fs_24 ps-2 SelfStorage__input"
-                                           value="Добавьте номер телефона"
+                                           placeholder="+7-XXX-XXX-XX-XX"
                                            disabled>
                                     <label class="fs_24 SelfStorage_green ms-2" for="PASSWORD">Пароль</label>
                                     <input type="password"
@@ -70,28 +71,8 @@
                                             class="btn SelfStorage_green ps-1"
                                             id="save"
                                             style="display: none">Сохранить</button>
+                                    <div id="edit-errors" class="text-danger mb-3 errors-edit"></div>
                                     <a class="btn SelfStorage_orange ps-1" id="edit">Редактировать</a>
-                                    <script>
-									document.getElementById('edit').addEventListener('click', e => {
-										e.preventDefault()
-										document.getElementById('EMAIL').disabled = false
-										document.getElementById('PHONE').disabled = false
-										document.getElementById('PASSWORD').disabled = false
-										document.getElementById('PASSWORD').type = 'text'
-										document.getElementById('edit').style.display = 'none'
-										document.getElementById('save').style.display = 'inline-block'
-									})
-									document.getElementById('save').addEventListener('click', () => {
-										setTimeout(() => {
-											document.getElementById('EMAIL').disabled = true
-											document.getElementById('PHONE').disabled = true
-											document.getElementById('PASSWORD').disabled = true
-											document.getElementById('PASSWORD').type = 'password'
-											document.getElementById('edit').style.display = 'inline-block'
-											document.getElementById('save').style.display = 'none'
-										}, 0)
-									})
-                                    </script>
                                 </form>
                             </div>
                         </div>
@@ -150,4 +131,5 @@
             </div>
         </div>
     </main>
+    <script src="{% static 'js/edit_profile.js' %}"></script>
 {% endblock content %}
