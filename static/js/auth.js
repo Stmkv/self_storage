@@ -1,4 +1,3 @@
-// Регистрация
 document.querySelector('#register-form').addEventListener('submit', async e => {
   e.preventDefault()
   const form = e.target
@@ -11,10 +10,8 @@ document.querySelector('#register-form').addEventListener('submit', async e => {
 
   const result = await response.json()
   if (response.ok) {
-    // Успешная регистрация
     window.location.href = result.redirect_url
   } else {
-    // Показать ошибки
     const errorsContainer = document.querySelector('#register-errors')
     errorsContainer.innerHTML = ''
     for (const [field, errors] of Object.entries(result.errors)) {
@@ -23,7 +20,6 @@ document.querySelector('#register-form').addEventListener('submit', async e => {
   }
 })
 
-// Авторизация
 document.querySelector('#login-form').addEventListener('submit', async e => {
   e.preventDefault()
   const form = e.target
@@ -36,10 +32,8 @@ document.querySelector('#login-form').addEventListener('submit', async e => {
 
   const result = await response.json()
   if (response.ok) {
-    // Успешная авторизация
     window.location.href = result.redirect_url
   } else {
-    // Показать ошибки
     const errorsContainer = document.querySelector('#login-errors')
     errorsContainer.innerHTML = `<p>${result.message}</p>`
   }

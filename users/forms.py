@@ -31,7 +31,7 @@ class UserLoginForm(AuthenticationForm):
         password = cleaned_data.get("password")
 
         if email and password:
-            user = authenticate(request=self.request, email=email, password=password)
+            user = authenticate(email=email, password=password)
             if user is None:
                 raise forms.ValidationError("Неверные данные")
         return cleaned_data
