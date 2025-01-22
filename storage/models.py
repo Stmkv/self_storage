@@ -30,3 +30,28 @@ class Order(models.Model):
 
     def save (self, *args, **kwargs):
         pass
+
+class AboutUs(models.Model):
+    title = models.TextField('заголовок')
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'Заголовок'
+        verbose_name_plural = 'Заголовки'
+
+
+class Text(models.Model):
+    title = models.ForeignKey(AboutUs,
+                             verbose_name='название',
+                             on_delete=models.CASCADE,
+                             related_name='texts')
+    text = models.TextField('текст')
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = 'Текст'
+        verbose_name_plural = 'Тексты'
