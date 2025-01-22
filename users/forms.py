@@ -35,3 +35,9 @@ class UserLoginForm(AuthenticationForm):
             if user is None:
                 raise forms.ValidationError("Неверные данные")
         return cleaned_data
+
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ["avatar"]

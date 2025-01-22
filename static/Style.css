@@ -163,3 +163,12 @@ body {
   flex-direction: column;
   align-items: center;
 }
+.btn-orange {
+  background-color: #ff5733; /* Оранжевый цвет */
+  color: white;
+  border: none;
+}
+
+.btn-orange:hover {
+  background-color: #ff4500; /* Более темный оранжевый при наведении */
+}

@@ -76,21 +76,11 @@ class Order(models.Model):
         related_name="orders",
     )
     date = models.DateField(auto_now_add=True)
-    address = models.TextField("адрес")
-    box = models.OneToOneField(
-        Box,
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True)
-    price = models.PositiveIntegerField(
-        verbose_name="цена",
-        null=True,
-        blank=True)
+    address = models.TextField("адрес", null=True, blank=True)
+    box = models.OneToOneField(Box, on_delete=models.CASCADE, null=True, blank=True)
+    price = models.PositiveIntegerField("цена", null=True, blank=True)
     state = models.CharField(
-        "состояние",
-        choices=ORDER_CHOICES,
-        max_length=9,
-        default="todo"
+        "состояние", choices=ORDER_CHOICES, max_length=9, default="todo"
     )
 
     def __str__(self):
@@ -105,9 +95,7 @@ class Order(models.Model):
 
 
 class AboutUs(models.Model):
-    title = models.CharField(
-        verbose_name="заголовок",
-        max_length=200)
+    title = models.CharField(verbose_name="заголовок", max_length=200)
 
     def __str__(self):
         return self.title
@@ -119,14 +107,9 @@ class AboutUs(models.Model):
 
 class Text(models.Model):
     title = models.ForeignKey(
-        AboutUs,
-        verbose_name="название",
-        on_delete=models.CASCADE,
-        related_name="texts"
+        AboutUs, verbose_name="название", on_delete=models.CASCADE, related_name="texts"
     )
-    question = models.CharField(
-        verbose_name="вопрос",
-        max_length=200)
+    question = models.CharField(verbose_name="вопрос", max_length=200)
     answer = models.TextField("ответ")
 
     def __str__(self):

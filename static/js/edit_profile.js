@@ -27,8 +27,6 @@ document.getElementById('edit').addEventListener('click', e => {
   e.preventDefault()
   document.getElementById('EMAIL').disabled = false
   document.getElementById('PHONE').disabled = false
-  document.getElementById('PASSWORD').disabled = false
-  document.getElementById('PASSWORD').type = 'text'
   document.getElementById('edit').style.display = 'none'
   document.getElementById('save').style.display = 'inline-block'
 })
@@ -36,8 +34,6 @@ document.getElementById('save').addEventListener('click', () => {
   setTimeout(() => {
     document.getElementById('EMAIL').disabled = true
     document.getElementById('PHONE').disabled = true
-    document.getElementById('PASSWORD').disabled = true
-    document.getElementById('PASSWORD').type = 'password'
     document.getElementById('edit').style.display = 'inline-block'
     document.getElementById('save').style.display = 'none'
   }, 0)
