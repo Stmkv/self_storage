@@ -1,5 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -62,15 +64,17 @@ def logout_view(request):
 def edit_profile(request):
     user = CustomUser.objects.get(email=request.user.email)
     new_email = request.POST.get("EMAIL_EDIT")
-    print(new_email)
-    if not new_email:
+    try:
+        validate_email(new_email)
+    except ValidationError:
         return JsonResponse(
             {
                 "success": False,
-                "errors": {"email": ["Поле email не может быть пустым"]},
+                "errors": {"email": ["Неверный формат"]},
             },
             status=400,
         )
-    user.email = request.POST.get("EMAIL_EDIT")
-    user.save()
-    return JsonResponse({"success": True, "redirect_url": "/my-rent/"})
+    else:
+        user.email = request.POST.get("EMAIL_EDIT")
+        user.save()
+        return JsonResponse({"success": True, "redirect_url": "/my-rent/"})
