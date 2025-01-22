@@ -5,6 +5,8 @@ from users.models import CustomUser
 
 class Warehouse(models.Model):
     address = models.CharField(max_length=100, unique=True)
+    temperature = models.IntegerField(verbose_name="Температура на складе")
+    celling_height = models.DecimalField(max_digit=5, decimical_places=2, verbose_name="Высота потолка")
     number_of_boxes = models.PositiveIntegerField(default=0)
     creation_date = models.DateTimeField(auto_now_add=True)
 
