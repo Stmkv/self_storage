@@ -3,7 +3,10 @@ from django.shortcuts import render
 
 # Create your views here.
 def boxes(request):
-    return render(request, "boxes.html")
+    context = {
+        "user_auth": request.user.is_authenticated,
+    }
+    return render(request, "boxes.html", context)
 
 
 def faq(request):
