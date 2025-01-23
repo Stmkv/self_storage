@@ -1,0 +1,52 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'Style.css' %}">
+  <title>Order</title>
+</head>
+<body class="d-flex justify-content-center align-items-center min-vh-100">
+<div class="order-form">
+    <a class="navbar-brand" href="{% url 'storage:index' %}">
+      <img src="{% static 'img/Vector.svg' %}" alt="[]">
+      <img src="{% static 'img/SelfStorage.svg' %}" alt="SelfStorage">
+    </a>
+  <form method="POST" action="{% url 'storage:boxes' %}">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="start_date" class="form-label">{{ form.start_date.label }}</label>
+      {{ form.start_date }}
+      {% if form.start_date.errors %}
+        <div class="text-danger">{{ form.start_date.errors }}</div>
+      {% endif %}
+    </div>
+    <div class="mb-3">
+      <label for="end_date" class="form-label">{{ form.end_date.label }}</label>
+      {{ form.end_date }}
+      {% if form.end_date.errors %}
+        <div class="text-danger">{{ form.end_date.errors }}</div>
+      {% endif %}
+    </div>
+    <button type="submit" class="btn btn-primary">Отправить</button>
+  </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        flatpickr('.datepicker', {
+            dateFormat: "Y-m-d",
+            altInput: true,
+            altFormat: "F j, Y",
+            allowInput: true
+        });
+    });
+</script>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</html>

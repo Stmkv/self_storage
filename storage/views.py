@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 from storage.models import AboutUs, Warehouse
+from .forms import DateRangeForm
 
 
 # Create your views here.
@@ -37,3 +38,9 @@ def my_rent(request):
 
 def my_rent_empty(request):
     return render(request, "my-rent-empty.html")
+
+
+def order(request):
+    form = DateRangeForm()
+    return render(request, "order.html", {"form": form})
+

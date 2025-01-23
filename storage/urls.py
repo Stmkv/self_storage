@@ -9,4 +9,5 @@ urlpatterns = [
     path("boxes/", views.boxes, name="boxes"),
     path("my-rent/", views.my_rent, name="my-rent"),
     path("my-rent-empty/", views.my_rent_empty, name="my-rent-empty"),
+    path("order/", views.order, name="order"),
 ]
