@@ -1,6 +1,7 @@
 from django.core.management.base import BaseCommand
+from django.utils import timezone
 
-from storage.models import AboutUs, Text
+from storage.models import AboutUs, Text, Warehouse, WarehouseImage
 
 faq_data = {
     "О складах и боксах": [
@@ -58,9 +59,77 @@ faq_data = {
     ],
 }
 
+warehouses_data = [
+    {
+        "city": "Москва",
+        "address": "ул. Рокотова, д. 15",
+        "number_of_boxes": 390,
+        "creation_date": timezone.now(),
+        "price_per_month": 3040,
+        "preview_image": "image9.png",
+        "description": "Рядом с метро",
+        "temperature": 17,
+        "ceiling_height": 3,
+        "full_description": "Полное описание",
+        "warehouseImage": ["image2.png", "photo8.png"]
+    },
+    {
+        "city": "Одинцово",
+        "address": "ул. Северная, д. 36",
+        "number_of_boxes": 258,
+        "creation_date": timezone.now(),
+        "price_per_month": 2264,
+        "preview_image": "image11.png",
+        "description": "Парковка",
+        "temperature": "18",
+        "ceiling_height": "3",
+        "full_description": "Полное описание",
+        "warehouseImage": ["image2.png", "photo8.png"]
+    },
+    {
+        "city": "Пушкино",
+        "address": "ул. Строителей, д. 5",
+        "number_of_boxes": 361,
+        "creation_date": timezone.now(),
+        "price_per_month": 2154,
+        "preview_image": "image15.png",
+        "description": "Высокие потолки",
+        "temperature": 20,
+        "ceiling_height": 5,
+        "full_description": "Полное описание",
+        "warehouseImage": ["image2.png", "photo8.png"]
+    },
+    {
+        "city": "Люберцы",
+        "address": "ул. Советская, д. 88",
+        "number_of_boxes": 130,
+        "creation_date": timezone.now(),
+        "price_per_month": 1408,
+        "preview_image": "image16.png",
+        "description": "Осталось мало боксов",
+        "temperature": 18,
+        "ceiling_height": 3,
+        "full_description": "Полное описание",
+        "warehouseImage": ["image2.png", "photo8.png"]
+    },
+    {
+        "city": "Домодедово",
+        "address": "ул. Орджоникидзе, д. 29",
+        "number_of_boxes": 234,
+        "creation_date": timezone.now(),
+        "price_per_month": 2978,
+        "preview_image": "image151.png",
+        "description": "Большие боксы",
+        "temperature": 21,
+        "ceiling_height": 4,
+        "full_description": "Полное описание",
+        "warehouseImage": ["image2.png", "photo8.png"]
+    }
+]
+
 
 class Command(BaseCommand):
-    help = "Заполнить вопросы и ответы"
+    help = "Заполнить базу данных"
 
     def handle(self, *args, **kwargs):
         for title, questions in faq_data.items():
@@ -72,4 +141,23 @@ class Command(BaseCommand):
                     title=about_us, question=question, answer=answer
                 )
 
-        self.stdout.write(self.style.SUCCESS("Вопросы и ответы заполнены"))
+        for warehouse_info in warehouses_data:
+            warehouse, _ = Warehouse.objects.get_or_create(
+                city=warehouse_info['city'],
+                address=warehouse_info['address'],
+                number_of_boxes=warehouse_info['number_of_boxes'],
+                price_per_month=warehouse_info['price_per_month'],
+                preview_image=warehouse_info['preview_image'],
+                description=warehouse_info['description'],
+                temperature=warehouse_info['temperature'],
+                ceiling_height=warehouse_info['ceiling_height'],
+                full_description=warehouse_info['full_description'],
+            )
+            for image_name in warehouse_info['warehouseImage']:
+                WarehouseImage.objects.get_or_create(
+                    warehouse=warehouse,
+                    full_image=image_name
+                )
+
+
+        self.stdout.write(self.style.SUCCESS("База данных заполнена"))
