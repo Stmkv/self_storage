@@ -4,11 +4,14 @@ from users.models import CustomUser
 
 
 class Warehouse(models.Model):
-    address = models.CharField(max_length=100, unique=True)
-    total_area = models.FloatField(help_text="Общая площадь склада в квадратных метрах")
-    number_of_boxes = models.PositiveIntegerField(default=0)
-    description = models.TextField(blank=True, null=True)
-    creation_date = models.DateTimeField(auto_now_add=True)
+    city = models.CharField(max_length=20, verbose_name="Город")
+    address = models.CharField(max_length=100, unique=True, verbose_name="Адрес")
+    number_of_boxes = models.PositiveIntegerField(default=0, verbose_name="Всего боксов")
+    creation_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    price_per_month = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена за месяц от")
+    image = models.ImageField(verbose_name="Изображение")
+    description = models.CharField(max_length=200, verbose_name="Описание (например Рядом с метро)")
+
 
     class Meta:
         verbose_name = "Склад"
