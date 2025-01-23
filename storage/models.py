@@ -9,8 +9,10 @@ class Warehouse(models.Model):
     number_of_boxes = models.PositiveIntegerField(default=0, verbose_name="Всего боксов")
     creation_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     price_per_month = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена за месяц от")
-    image = models.ImageField(verbose_name="Изображение")
+    preview_image = models.ImageField(verbose_name="Изображение")
     description = models.CharField(max_length=200, verbose_name="Описание (например Рядом с метро)")
+    temperature = models.IntegerField(max_length=3, verbose_name="Температура")
+    ceiling_height = models.PositiveIntegerField(max_length=2, verbose_name="Высота потолка")
 
 
     class Meta:
@@ -20,6 +22,14 @@ class Warehouse(models.Model):
     def __str__(self):
         return f"Склад по адресу {self.address}"
 
+
+class WarehouseImage(models.Model):
+    warehouse = models.ForeignKey(Warehouse, related_name='images', on_delete=models.CASCADE)
+    full_image = models.ImageField(upload_to='warehouse_images/', verbose_name="Полное изображение")
+    uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата загрузки")
+
+    def __str__(self):
+        return f"Изображение для {self.warehouse.address}"
 
 class Box(models.Model):
     TYPES = [

@@ -3,3 +3,4 @@ environs==11.2.1
 djlint==1.36.4
 gunicorn==23.0.0
 django-debug-toolbar==5.0.1
+pillow==11.1.0

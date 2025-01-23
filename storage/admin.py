@@ -1,6 +1,12 @@
 from django.contrib import admin
 
-from storage.models import Warehouse, Box
+from storage.models import Warehouse, Box, WarehouseImage
+
+
+class WarehouseImageInline(admin.TabularInline):
+    model = WarehouseImage
+    extra = 1
+    readonly_fields = ('uploaded_at',)
 
 
 @admin.register(Warehouse)
@@ -9,6 +15,7 @@ class WarehouseAdmin(admin.ModelAdmin):
     search_fields = ('address',)
     list_filter = ('creation_date',)
     ordering = ('-creation_date',)
+    inlines = [WarehouseImageInline]
 
 
 @admin.register(Box)
