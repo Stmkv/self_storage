@@ -56,7 +56,15 @@
                             </div>
                             <div class="col-12 col-md-4 col-lg-3 d-flex flex-column justify-content-center">
                                 <h4 class="text-center">{{ warehouse.free_boxes }}  из {{ warehouse.number_of_boxes}}</h4>
+                                {% if warehouse.free_boxes == 0 %}
+                                <h6 class="text-center">Свободных нет</h6>
+                                {% elif warehouse.free_boxes == 1 %}
+                                <h6 class="text-center">Бокс свободен</h6>
+                                {% elif 2 <= warehouse.free_boxes <= 4 %}
+                                <h6 class="text-center">Бокса свободны</h6>
+                                {% else %}
                                 <h6 class="text-center">Боксов свободно</h6>
+                                {% endif %}
                             </div>
                             <div class="col-12 col-md-4 col-lg-3 d-flex flex-column justify-content-center">
                                 <h4 class="text-center SelfStorage_green">от {{ warehouse.price_per_month }} ₽</h4>
@@ -169,7 +177,15 @@
                                         <span class="fs_30 fw-bold SelfStorage_orange">{{ warehouse.temperature }} °С</span>
                                         <span class="SelfStorage_grey mb-3">Температура на складе</span>
                                         <span class="fs_30 fw-bold SelfStorage_orange">{{ warehouse.free_boxes }} из {{ warehouse.number_of_boxes }}</span>
+                                        {% if warehouse.free_boxes == 0 %}
+                                        <span class="SelfStorage_grey mb-3">Свободных боксов</span>
+                                        {% elif warehouse.free_boxes <= 4 %}
+                                        <span class="SelfStorage_grey mb-3">Свободных бокса</span>
+                                        {% elif warehouse.free_boxes == 1 %}
+                                        <span class="SelfStorage_grey mb-3">Свободный бокс</span>
+                                        {% else %}
                                         <span class="SelfStorage_grey mb-3">Боксов свободно</span>
+                                        {% endif %}
                                     </div>
                                     <div class="col-6 d-flex flex-column align-items-center align-items-lg-start">
                                         <span class="fs_30 fw-bold SelfStorage_orange">до {{ warehouse.ceiling_height }} м</span>
