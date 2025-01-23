@@ -13,6 +13,7 @@ class Warehouse(models.Model):
     description = models.CharField(max_length=200, verbose_name="Описание (например Рядом с метро)")
     temperature = models.IntegerField(max_length=3, verbose_name="Температура")
     ceiling_height = models.PositiveIntegerField(max_length=2, verbose_name="Высота потолка")
+    full_description = models.TextField(verbose_name="Полное описание")
 
 
     class Meta:
@@ -26,7 +27,6 @@ class Warehouse(models.Model):
 class WarehouseImage(models.Model):
     warehouse = models.ForeignKey(Warehouse, related_name='images', on_delete=models.CASCADE)
     full_image = models.ImageField(upload_to='warehouse_images/', verbose_name="Полное изображение")
-    uploaded_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата загрузки")
 
     def __str__(self):
         return f"Изображение для {self.warehouse.address}"
