@@ -6,6 +6,8 @@ from storage.models import AboutUs, Warehouse
 # Create your views here.
 def boxes(request):
     warehouses = Warehouse.objects.all()
+    for warehouse in warehouses:
+        warehouse.free_boxes = warehouse.boxes.filter(status="свободен").count()
     context = {
         "user_auth": request.user.is_authenticated,
         "warehouses": warehouses,
