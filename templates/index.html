@@ -18,15 +18,18 @@
             <div class="col-12 col-lg-6 mb-3 mb-lg-0">
                 <h1 class="fw-bold SelfStorage_green mb-5">Доставка и бережное хранение ваших вещей</h1>
                 <h4 class="fw-lighter SelfStorage_grey mb-5">Аренда бокса на любой срок Бесплатная доставка от вашего дома</h4>
-                <form class="">
+                <form class="" id="calc-form">
+                    {% csrf_token %}
                     <input type="text"
                            required
                            name="EMAIL1"
                            class="form-control border-8 mb-4 py-3 px-5 border-0 fs_24 SelfStorage__bg_lightgrey"
                            placeholder="Укажите ваш e-mail">
-                    <button class="btn border-8 py-3 px-5 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange">
+                    <button type="submit"
+                            class="btn border-8 py-3 px-5 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange">
                         Рассчитать стоимость
                     </button>
+                    <div id="calc-errors" class="text-danger mb-3"></div>
                     <span class="text-center fw-light">Нажимая на кнопку, вы подтверждаете свое <a href="#" class="link-dark">согласие на обработку персональных данных</a></span>
                 </form>
             </div>
@@ -305,18 +308,21 @@
                 <h4 class="text-white text-center fw-light">
                     Акция распространяется только на новых пользователей сервиса SelfStorage
                 </h4>
-                <form class="row my-4">
+                <form class="row my-4" id="calc-form2">
+                    {% csrf_token %}
                     <div class="col-12 col-lg-6">
                         <input type="text"
                                required
-                               name="EMAIL2"
+                               name="EMAIL1"
                                class="form-control border-8 mb-4 me-3 py-3 px-5 border-0 fs_24 SelfStorage__bg_lightgrey"
                                placeholder="Укажите ваш e-mail">
                     </div>
                     <div class="col-12 col-lg-6">
-                        <button class="btn w-100 border-8 py-3 px-5 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange">
+                        <button type="submit"
+                                class="btn w-100 border-8 py-3 px-5 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange">
                             Рассчитать стоимость
                         </button>
+                        <div id="calc-errors2" class="text-danger mb-3"></div>
                     </div>
                 </form>
                 <span class="text-white text-center fw-light">Нажимая на кнопку, вы подтверждаете свое <a href="#" class="text-white">согласие на обработку персональных данных</a></span>
@@ -326,4 +332,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
+    <script src="{% static 'js/get_email.js' %}"></script>
 {% endblock content %}

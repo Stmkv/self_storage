@@ -1,6 +1,5 @@
 document.querySelector('#edit-form').addEventListener('submit', async e => {
   e.preventDefault()
-  console.log('edit profile')
   const form = e.target
   const formData = new FormData(form)
 

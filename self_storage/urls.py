@@ -8,6 +8,10 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("users/", include("users.urls", namespace="users")),
     path("users/", include("django.contrib.auth.urls")),
+    path(
+        "request-calculation/",
+        include("request_calculation.urls", namespace="request_calculation"),
+    ),
 ]
 if settings.DEBUG:
     urlpatterns = [path("__debug__/", include("debug_toolbar.urls"))] + urlpatterns

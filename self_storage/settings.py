@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "storage.apps.StorageConfig",
     "users.apps.UsersConfig",
+    "request_calculation",
     "debug_toolbar",
     "phonenumber_field",
 ]
