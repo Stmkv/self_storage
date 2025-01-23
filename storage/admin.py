@@ -6,7 +6,6 @@ from storage.models import Warehouse, Box, WarehouseImage
 class WarehouseImageInline(admin.TabularInline):
     model = WarehouseImage
     extra = 1
-    readonly_fields = ('uploaded_at',)
 
 
 @admin.register(Warehouse)

@@ -11,8 +11,8 @@ class Warehouse(models.Model):
     price_per_month = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена за месяц от")
     preview_image = models.ImageField(verbose_name="Изображение")
     description = models.CharField(max_length=200, verbose_name="Описание (например Рядом с метро)")
-    temperature = models.IntegerField(max_length=3, verbose_name="Температура")
-    ceiling_height = models.PositiveIntegerField(max_length=2, verbose_name="Высота потолка")
+    temperature = models.IntegerField(verbose_name="Температура")
+    ceiling_height = models.PositiveIntegerField(verbose_name="Высота потолка")
     full_description = models.TextField(verbose_name="Полное описание")
 
 
