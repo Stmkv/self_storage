@@ -66,7 +66,7 @@ class Command(BaseCommand):
                     [box.order.client.email],
                     fail_silently=False,
                 )
-                self.stdout.write(self.style.SUCCESS(f'2 Письмо отправлено {box.order.client.email}: конец срока хранения {box.get_end_storage().date()}.'))
+                self.stdout.write(self.style.SUCCESS(f'2 Письмо отправлено {box.order.client.email}: конец срока хранения {box.order.end_storage.date()}.'))
             except smtplib.SMTPRecipientsRefused as e:
                 self.stdout.write(self.style.ERROR(f'Error sending email:  {e}'))
 
@@ -106,6 +106,6 @@ class Command(BaseCommand):
                     [box.order.client.email],
                     fail_silently=False,
                 )
-                self.stdout.write(self.style.SUCCESS(f'3 Письмо отправлено {box.order.client.email}: конец срока хранения {box.get_end_storage().date()}.'))
+                self.stdout.write(self.style.SUCCESS(f'3 Письмо отправлено {box.order.client.email}: конец срока хранения {box.order.end_storage.date()}.'))
             except smtplib.SMTPRecipientsRefused as e:
                 self.stdout.write(self.style.ERROR(f'Error sending email:  {e}'))
