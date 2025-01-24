@@ -10,8 +10,6 @@ def boxes(request):
     warehouses = Warehouse.objects.prefetch_related("boxes").all()
     for warehouse in warehouses:
         warehouse.free_boxes = warehouse.boxes.filter(status="свободен").count()
-
-    # Фильтрация боксов по категориям
     box_categories = {
         "all": Box.objects.all(),
         "to3": Box.objects.filter(area__lte=3),
