@@ -6,15 +6,24 @@ from users.models import CustomUser
 class Warehouse(models.Model):
     city = models.CharField(max_length=20, verbose_name="Город")
     address = models.CharField(max_length=100, unique=True, verbose_name="Адрес")
-    number_of_boxes = models.PositiveIntegerField(default=0, verbose_name="Всего боксов")
-    creation_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
-    price_per_month = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена за месяц от")
-    preview_image = models.ImageField(upload_to='warehouse_preview_images/', verbose_name="Изображение")
-    description = models.CharField(max_length=200, verbose_name="Описание (например Рядом с метро)")
+    number_of_boxes = models.PositiveIntegerField(
+        default=0, verbose_name="Всего боксов"
+    )
+    creation_date = models.DateTimeField(
+        auto_now_add=True, verbose_name="Дата создания"
+    )
+    price_per_month = models.DecimalField(
+        max_digits=10, decimal_places=2, verbose_name="Цена за месяц от"
+    )
+    preview_image = models.ImageField(
+        upload_to="warehouse_preview_images/", verbose_name="Изображение"
+    )
+    description = models.CharField(
+        max_length=200, verbose_name="Описание (например Рядом с метро)"
+    )
     temperature = models.IntegerField(verbose_name="Температура")
     ceiling_height = models.PositiveIntegerField(verbose_name="Высота потолка")
     full_description = models.TextField(verbose_name="Полное описание")
-
 
     class Meta:
         verbose_name = "Склад"
@@ -25,35 +34,42 @@ class Warehouse(models.Model):
 
 
 class WarehouseImage(models.Model):
-    warehouse = models.ForeignKey(Warehouse, related_name='images', on_delete=models.CASCADE)
-    full_image = models.ImageField(upload_to='warehouse_full_images/', verbose_name="Полное изображение")
+    warehouse = models.ForeignKey(
+        Warehouse, related_name="images", on_delete=models.CASCADE
+    )
+    full_image = models.ImageField(
+        upload_to="warehouse_full_images/", verbose_name="Полное изображение"
+    )
 
     def __str__(self):
         return f"Изображение для {self.warehouse.address}"
 
-class Box(models.Model):
-    TYPES = [
-        ("маленький до 3м", "Маленький до 3м"),
-        ("стандартный от 3м до 10м", "Стандартный от 3м до 10м"),
-        ("большой от 10м", "Большой от 10м"),
-    ]
 
+class Box(models.Model):
     warehouse = models.ForeignKey(
         Warehouse, on_delete=models.CASCADE, related_name="boxes", verbose_name="Склад"
     )
-    number = models.CharField(max_length=99, unique=True)
-    box_type = models.CharField(max_length=30, choices=TYPES, verbose_name="Размер бокса")
+    floor = models.CharField(max_length=1, verbose_name="Этаж")
+    area = models.FloatField(verbose_name="Площадь (м²)", editable=False)
+    length = models.FloatField(verbose_name="Длина (м)")
+    width = models.FloatField(verbose_name="Ширина (м)")
+    height = models.FloatField(verbose_name="Высота (м)")
+    number = models.CharField(max_length=99, unique=True, verbose_name="Номер бокса")
     status = models.CharField(
         max_length=20,
         choices=[
             ("свободен", "Свободен"),
             ("занят", "Занят"),
-             ("в обработке", "В обработке"),
+            ("в обработке", "В обработке"),
         ],
-        default="свободен", verbose_name="Статус"
+        default="свободен",
+        verbose_name="Статус",
     )
     price_per_month = models.DecimalField(
-        max_digits=10, decimal_places=2, help_text="Цена в месяц в рублях", verbose_name="Цена за месяц"
+        max_digits=10,
+        decimal_places=2,
+        help_text="Цена в месяц в рублях",
+        verbose_name="Цена за месяц",
     )
     release_date = models.DateField(blank=True, null=True, verbose_name="Дата создания")
 
@@ -62,13 +78,15 @@ class Box(models.Model):
         verbose_name_plural = "Боксы"
 
     def __str__(self):
-        return f"Бокс #{self.number} ({self.box_type}"
+        return f"Бокс #{self.number} ({self.area} м²)"
 
     def save(self, *args, **kwargs):
-        if not self.number:
+        self.area = self.length * self.width
+        if not self.pk:
             last_number = Box.objects.filter(warehouse=self.warehouse).count()
             self.number = f"{self.warehouse.id} - {last_number + 1}"
-        super(Box, self).save(*args, **kwargs)
+
+        super().save(*args, **kwargs)
 
 
 ORDER_CHOICES = (
@@ -102,9 +120,6 @@ class Order(models.Model):
     class Meta:
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
-
-    def save(self, *args, **kwargs):
-        pass
 
 
 class AboutUs(models.Model):
