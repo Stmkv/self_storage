@@ -86,228 +86,205 @@
         </article>
 
         <article class="pt-header" id="BOX">
-            <div class="tab-content" id="boxes-content">
-                {% for warehouse in warehouses %}
-                    <div class="tab-pane fade"
-                         id="pills-{{ warehouse.id|slugify }}"
-                         role="tabpanel"
-                         aria-labelledby="pills-{{ warehouse.id|slugify }}-tab">
-                        <h1 class="text-center mb-4 fw-bold">{{ warehouse.city }}, {{ warehouse.address }}</h1>
-                        <div class="row d-flex flex-column mb-5">
-                            <div class="col-12 col-sm-6 col-lg-4 d-flex justify-content-between align-self-center">
-                                <a type="button"
-                                   class="SelfStorage_orange"
-                                   data-bs-container="body"
-                                   data-bs-toggle="popover"
-                                   data-bs-placement="bottom"
-                                   title="Контакты"
-                                   data-bs-content="Список контактов">Контакты</a>
-                                <a type="button"
-                                   class="SelfStorage_orange"
-                                   data-bs-container="body"
-                                   data-bs-toggle="popover"
-                                   data-bs-placement="bottom"
-                                   title="Описание"
-                                   data-bs-content="Текст описания">Описание</a>
-                                <a type="button"
-                                   class="SelfStorage_orange"
-                                   data-bs-container="body"
-                                   data-bs-toggle="popover"
-                                   data-bs-placement="bottom"
-                                   title="Проезд"
-                                   data-bs-content="Описание проезда">Проезд</a>
+    <div class="tab-content" id="boxes-content">
+        {% for warehouse in warehouses %}
+            <div class="tab-pane fade"
+                 id="pills-{{ warehouse.id|slugify }}"
+                 role="tabpanel"
+                 aria-labelledby="pills-{{ warehouse.id|slugify }}-tab">
+                <h1 class="text-center mb-4 fw-bold">{{ warehouse.city }}, {{ warehouse.address }}</h1>
+                <div class="row d-flex flex-column mb-5">
+                    <div class="col-12 col-sm-6 col-lg-4 d-flex justify-content-between align-self-center">
+                        <a type="button"
+                           class="SelfStorage_orange"
+                           data-bs-container="body"
+                           data-bs-toggle="popover"
+                           data-bs-placement="bottom"
+                           title="Контакты"
+                           data-bs-content="Список контактов">Контакты</a>
+                        <a type="button"
+                           class="SelfStorage_orange"
+                           data-bs-container="body"
+                           data-bs-toggle="popover"
+                           data-bs-placement="bottom"
+                           title="Описание"
+                           data-bs-content="Текст описания">Описание</a>
+                        <a type="button"
+                           class="SelfStorage_orange"
+                           data-bs-container="body"
+                           data-bs-toggle="popover"
+                           data-bs-placement="bottom"
+                           title="Проезд"
+                           data-bs-content="Описание проезда">Проезд</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-lg-6">
+                        <div id="carouselExampleControls-{{ forloop.counter }}"
+                             class="carousel slide"
+                             data-bs-ride="carousel">
+                            <div class="carousel-inner">
+                                {% for image in warehouse.images.all %}
+                                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <img src="{{ image.full_image.url }}" alt="Image for {{ warehouse.address }}">
+                                        </div>
+                                    </div>
+                                {% empty %}
+                                    <div class="carousel-item active">
+                                        <div class="d-flex flex-column align-items-center">
+                                            <p>No images available.</p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="w-100 d-flex justify-content-center my-3">
+                                <button data-bs-target="#carouselExampleControls-{{ forloop.counter }}"
+                                        data-bs-slide="prev"
+                                        class="btn rounded-pill d-flex justify-content-center align-items-center SelfStorage__bg_green"
+                                        style="width: 66px; height: 66px">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         width="36"
+                                         height="36"
+                                         fill="#fff"
+                                         class="bi bi-chevron-left"
+                                         viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                                    </svg>
+                                </button>
+                                <div style="width: 1rem"></div>
+                                <button data-bs-target="#carouselExampleControls-{{ forloop.counter }}"
+                                        data-bs-slide="next"
+                                        class="btn rounded-pill d-flex justify-content-center align-items-center SelfStorage__bg_green"
+                                        style="width: 66px; height: 66px">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         width="36"
+                                         height="36"
+                                         fill="#fff"
+                                         class="bi bi-chevron-right"
+                                         viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                                    </svg>
+                                </button>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
                         <div class="row">
-                            <div class="col-12 col-lg-6">
-                                <div id="carouselExampleControls-{{ forloop.counter }}"
-                                     class="carousel slide"
-                                     data-bs-ride="carousel">
-                                    <div class="carousel-inner">
-                                        {% for image in warehouse.images.all %}
-                                            <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                                                <div class="d-flex flex-column align-items-center">
-                                                    <img src="{{ image.full_image.url }}" alt="Image for {{ warehouse.address }}">
-                                                </div>
-                                            </div>
-                                        {% empty %}
-                                            <div class="carousel-item active">
-                                                <div class="d-flex flex-column align-items-center">
-                                                    <p>No images available.</p>
-                                                </div>
-                                            </div>
-                                        {% endfor %}
-                                    </div>
-                                    <div class="w-100 d-flex justify-content-center my-3">
-                                        <button data-bs-target="#carouselExampleControls-{{ forloop.counter }}"
-                                                data-bs-slide="prev"
-                                                class="btn rounded-pill d-flex justify-content-center align-items-center SelfStorage__bg_green"
-                                                style="width: 66px; height: 66px">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                 width="36"
-                                                 height="36"
-                                                 fill="#fff"
-                                                 class="bi bi-chevron-left"
-                                                 viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
-                                            </svg>
-                                        </button>
-                                        <div style="width: 1rem"></div>
-                                        <button data-bs-target="#carouselExampleControls-{{ forloop.counter }}"
-                                                data-bs-slide="next"
-                                                class="btn rounded-pill d-flex justify-content-center align-items-center SelfStorage__bg_green"
-                                                style="width: 66px; height: 66px">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                 width="36"
-                                                 height="36"
-                                                 fill="#fff"
-                                                 class="bi bi-chevron-right"
-                                                 viewBox="0 0 16 16">
-                                                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
+                            <p class="text-center text-lg-start SelfStorage_grey">Доступ по QR</p>
+                            <div class="col-6 d-flex flex-column align-items-center align-items-lg-start">
+                                <span class="fs_30 fw-bold SelfStorage_orange">{{ warehouse.temperature }} °С</span>
+                                <span class="SelfStorage_grey mb-3">Температура на складе</span>
+                                <span class="fs_30 fw-bold SelfStorage_orange">{{ warehouse.free_boxes }} из {{ warehouse.number_of_boxes }}</span>
+                                {% if warehouse.free_boxes == 0 %}
+                                    <span class="SelfStorage_grey mb-3">Свободных боксов</span>
+                                {% elif warehouse.free_boxes <= 4 %}
+                                    <span class="SelfStorage_grey mb-3">Свободных бокса</span>
+                                {% elif warehouse.free_boxes == 1 %}
+                                    <span class="SelfStorage_grey mb-3">Свободный бокс</span>
+                                {% else %}
+                                    <span class="SelfStorage_grey mb-3">Боксов свободно</span>
+                                {% endif %}
                             </div>
-                            <div class="col-12 col-lg-6">
-                                <div class="row">
-                                    <p class="text-center text-lg-start SelfStorage_grey">Доступ по QR</p>
-                                    <div class="col-6 d-flex flex-column align-items-center align-items-lg-start">
-                                        <span class="fs_30 fw-bold SelfStorage_orange">{{ warehouse.temperature }} °С</span>
-                                        <span class="SelfStorage_grey mb-3">Температура на складе</span>
-                                        <span class="fs_30 fw-bold SelfStorage_orange">{{ warehouse.free_boxes }} из {{ warehouse.number_of_boxes }}</span>
-                                        {% if warehouse.free_boxes == 0 %}
-                                            <span class="SelfStorage_grey mb-3">Свободных боксов</span>
-                                        {% elif warehouse.free_boxes <= 4 %}
-                                            <span class="SelfStorage_grey mb-3">Свободных бокса</span>
-                                        {% elif warehouse.free_boxes == 1 %}
-                                            <span class="SelfStorage_grey mb-3">Свободный бокс</span>
-                                        {% else %}
-                                            <span class="SelfStorage_grey mb-3">Боксов свободно</span>
-                                        {% endif %}
-                                    </div>
-                                    <div class="col-6 d-flex flex-column align-items-center align-items-lg-start">
-                                        <span class="fs_30 fw-bold SelfStorage_orange">до {{ warehouse.ceiling_height }} м</span>
-                                        <span class="SelfStorage_grey mb-3">Высота потолка</span>
-                                        <span class="fs_30 fw-bold SelfStorage_orange">от {{ warehouse.price_per_month }} ₽</span>
-                                        <span class="SelfStorage_grey mb-3">Оплата за месяц</span>
-                                    </div>
-                                    <div class="d-flex flex-column align-items-center align-items-lg-start">
-                                        <a href="{% url 'storage:order' %}"
-                                           role="button"
-                                           class="btn w-75 fs_24 px-5 py-3 text-white border-8 SelfStorage__bg_green SelfStorage__btn2_green mb-3">Арендовать бокс</a>
-                                        <button class="btn w-75 fs_24 px-5 py-3 text-white border-8 SelfStorage__bg_orange SelfStorage__btn2_orange">
-                                            Позвонить мне
-                                        </button>
-                                    </div>
-                                    <a href="#" class="text-center text-lg-start mt-4 SelfStorage_orange">Нужна помощь?</a>
-                                </div>
+                            <div class="col-6 d-flex flex-column align-items-center align-items-lg-start">
+                                <span class="fs_30 fw-bold SelfStorage_orange">до {{ warehouse.ceiling_height }} м</span>
+                                <span class="SelfStorage_grey mb-3">Высота потолка</span>
+                                <span class="fs_30 fw-bold SelfStorage_orange">от {{ warehouse.price_per_month }} ₽</span>
+                                <span class="SelfStorage_grey mb-3">Оплата за месяц</span>
                             </div>
+                            <div class="d-flex flex-column align-items-center align-items-lg-start">
+                                <a href="{% url 'storage:order' %}"
+                                   role="button"
+                                   class="btn w-75 fs_24 px-5 py-3 text-white border-8 SelfStorage__bg_green SelfStorage__btn2_green mb-3">Арендовать бокс</a>
+                                <button class="btn w-75 fs_24 px-5 py-3 text-white border-8 SelfStorage__bg_orange SelfStorage__btn2_orange">
+                                    Позвонить мне
+                                </button>
+                            </div>
+                            <a href="#" class="text-center text-lg-start mt-4 SelfStorage_orange">Нужна помощь?</a>
                         </div>
                     </div>
-                {% endfor %}
-            </div>
-
-            <form class="row mt-5 d-none">
-                <div class="col-6 col-lg-3">
-                    <input type="radio"
-                           name="BOXES_FILTER"
-                           id="ALL_BOXES"
-                           class="SelfStorage_radio d-none"
-                           checked>
-                    <label for="ALL_BOXES" class="btn my-2 w-100 fs_24">Все боксы</label>
                 </div>
-                <div class="col-6 col-lg-3">
-                    <input type="radio"
-                           name="BOXES_FILTER"
-                           id="to3m"
-                           class="SelfStorage_radio d-none">
-                    <label for="to3m" class="btn my-2 w-100 fs_24">До 3 м²</label>
-                </div>
-                <div class="col-6 col-lg-3">
-                    <input type="radio"
-                           name="BOXES_FILTER"
-                           id="to10m"
-                           class="SelfStorage_radio d-none">
-                    <label for="to10m" class="btn my-2 w-100 fs_24">До 10 м²</label>
-                </div>
-                <div class="col-6 col-lg-3">
-                    <input type="radio"
-                           name="BOXES_FILTER"
-                           id="From10m"
-                           class="SelfStorage_radio d-none">
-                    <label for="From10m" class="btn my-2 w-100 fs_24">От 10 м²</label>
-                </div>
-            </form>
 
-            <ul class="nav nav-pills pt-header d-flex justify-content-between" id="pills-tab" role="tablist">
-                <li class="nav-item flex-grow-1 mx-2" role="presentation">
-                    <button class="btn my-2 w-100 fs_24 SelfStorage__tab active"
-                            id="pills-all-tab"
-                            data-bs-toggle="pill"
-                            data-bs-target="#pills-all"
-                            type="button"
-                            role="tab"
-                            aria-controls="pills-all"
-                            aria-selected="true">Все боксы</button>
-                </li>
-                <li class="nav-item flex-grow-1 mx-2" role="presentation">
-                    <button class="btn my-2 w-100 fs_24 SelfStorage__tab"
-                            id="pills-to3-tab"
-                            data-bs-toggle="pill"
-                            data-bs-target="#pills-to3"
-                            type="button"
-                            role="tab"
-                            aria-controls="pills-to3"
-                            aria-selected="false">До 3 м²</button>
-                </li>
-                <li class="nav-item flex-grow-1 mx-2" role="presentation">
-                    <button class="btn my-2 w-100 fs_24 SelfStorage__tab"
-                            id="pills-to10-tab"
-                            data-bs-toggle="pill"
-                            data-bs-target="#pills-to10"
-                            type="button"
-                            role="tab"
-                            aria-controls="pills-to10"
-                            aria-selected="false">До 10 м²</button>
-                </li>
-                <li class="nav-item flex-grow-1 mx-2" role="presentation">
-                    <button class="btn my-2 w-100 fs_24 SelfStorage__tab"
-                            id="pills-from10-tab"
-                            data-bs-toggle="pill"
-                            data-bs-target="#pills-from10"
-                            type="button"
-                            role="tab"
-                            aria-controls="pills-from10"
-                            aria-selected="false">От 10 м²</button>
-                </li>
-            </ul>
+                <!-- Фильтрация боксов по категориям для текущего склада -->
+                <ul class="nav nav-pills pt-header d-flex justify-content-between" id="pills-tab" role="tablist">
+                    <li class="nav-item flex-grow-1 mx-2" role="presentation">
+                        <button class="btn my-2 w-100 fs_24 SelfStorage__tab active"
+                                id="pills-all-{{ warehouse.id }}-tab"
+                                data-bs-toggle="pill"
+                                data-bs-target="#pills-all-{{ warehouse.id }}"
+                                type="button"
+                                role="tab"
+                                aria-controls="pills-all-{{ warehouse.id }}"
+                                aria-selected="true">Все боксы</button>
+                    </li>
+                    <li class="nav-item flex-grow-1 mx-2" role="presentation">
+                        <button class="btn my-2 w-100 fs_24 SelfStorage__tab"
+                                id="pills-to3-{{ warehouse.id }}-tab"
+                                data-bs-toggle="pill"
+                                data-bs-target="#pills-to3-{{ warehouse.id }}"
+                                type="button"
+                                role="tab"
+                                aria-controls="pills-to3-{{ warehouse.id }}"
+                                aria-selected="false">До 3 м²</button>
+                    </li>
+                    <li class="nav-item flex-grow-1 mx-2" role="presentation">
+                        <button class="btn my-2 w-100 fs_24 SelfStorage__tab"
+                                id="pills-to10-{{ warehouse.id }}-tab"
+                                data-bs-toggle="pill"
+                                data-bs-target="#pills-to10-{{ warehouse.id }}"
+                                type="button"
+                                role="tab"
+                                aria-controls="pills-to10-{{ warehouse.id }}"
+                                aria-selected="false">До 10 м²</button>
+                    </li>
+                    <li class="nav-item flex-grow-1 mx-2" role="presentation">
+                        <button class="btn my-2 w-100 fs_24 SelfStorage__tab"
+                                id="pills-from10-{{ warehouse.id }}-tab"
+                                data-bs-toggle="pill"
+                                data-bs-target="#pills-from10-{{ warehouse.id }}"
+                                type="button"
+                                role="tab"
+                                aria-controls="pills-from10-{{ warehouse.id }}"
+                                aria-selected="false">От 10 м²</button>
+                    </li>
+                </ul>
 
-            <div class="tab-content" id="pills-tabContent">
-                {% for category, boxes in box_categories.items %}
-                    <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="pills-{{ category }}" role="tabpanel" aria-labelledby="pills-{{ category }}-tab">
-                        {% for box in boxes|slice:":3" %}
-                            {% include "include/_box_item.html" with box=box %}
-                        {% endfor %}
-
-                        <div class="collapse" id="collapse-{{ category }}-boxes">
-                            {% for box in boxes|slice:"3:" %}
-                                {% include "include/_box_item.html" with box=box %}
+                <!-- Отображение боксов для текущего склада по категориям -->
+                <div class="tab-content" id="pills-tabContent-{{ warehouse.id }}">
+                    {% for category, boxes in box_categories.items %}
+                        <div class="tab-pane fade {% if forloop.first %}show active{% endif %}"
+                             id="pills-{{ category }}-{{ warehouse.id }}"
+                             role="tabpanel"
+                             aria-labelledby="pills-{{ category }}-{{ warehouse.id }}-tab">
+                            {% for box in warehouse.boxes.all|slice:":3" %}
+                                {% if box.area <= 3 and category == "to3" or box.area > 3 and box.area <= 10 and category == "to10" or box.area > 10 and category == "from10" or category == "all" %}
+                                    {% include "include/_box_item.html" with box=box %}
+                                {% endif %}
                             {% endfor %}
-                        </div>
 
-                        {% if boxes|length > 3 %}
-                            <button class="btn w-auto py-3 px-5 SelfStorage__bg_orange SelfStorage__btn2_orange text-white text-center fs_24 border-8 mt-3"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#collapse-{{ category }}-boxes"
-                                    aria-expanded="false"
-                                    aria-controls="collapse-{{ category }}-boxes">
-                                Другие боксы
-                            </button>
-                        {% endif %}
-                    </div>
-                {% endfor %}
+                            <div class="collapse" id="collapse-{{ category }}-{{ warehouse.id }}-boxes">
+                                {% for box in warehouse.boxes.all|slice:"3:" %}
+                                    {% if box.area <= 3 and category == "to3" or box.area > 3 and box.area <= 10 and category == "to10" or box.area > 10 and category == "from10" or category == "all" %}
+                                        {% include "include/_box_item.html" with box=box %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+
+                            {% if warehouse.boxes.all|length > 3 %}
+                                <button class="btn w-auto py-3 px-5 SelfStorage__bg_orange SelfStorage__btn2_orange text-white text-center fs_24 border-8 mt-3"
+                                        data-bs-toggle="collapse"
+                                        data-bs-target="#collapse-{{ category }}-{{ warehouse.id }}-boxes"
+                                        aria-expanded="false"
+                                        aria-controls="collapse-{{ category }}-{{ warehouse.id }}-boxes">
+                                    Другие боксы
+                                </button>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
-        </article>
+        {% endfor %}
+    </div>
+</article>
     </main>
 {% endblock content %}

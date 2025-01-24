@@ -8,10 +8,10 @@ from .forms import DateRangeForm
 # Create your views here.
 def boxes(request):
     warehouses = Warehouse.objects.prefetch_related("boxes").all()
-    boxes = Box.objects.all()
     for warehouse in warehouses:
         warehouse.free_boxes = warehouse.boxes.filter(status="свободен").count()
 
+    # Фильтрация боксов по категориям
     box_categories = {
         "all": Box.objects.all(),
         "to3": Box.objects.filter(area__lte=3),
@@ -22,7 +22,6 @@ def boxes(request):
     context = {
         "user_auth": request.user.is_authenticated,
         "warehouses": warehouses,
-        "box": boxes,
         "box_categories": box_categories,
     }
     return render(request, "boxes.html", context)
