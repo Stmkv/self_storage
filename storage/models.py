@@ -6,15 +6,24 @@ from users.models import CustomUser
 class Warehouse(models.Model):
     city = models.CharField(max_length=20, verbose_name="Город")
     address = models.CharField(max_length=100, unique=True, verbose_name="Адрес")
-    number_of_boxes = models.PositiveIntegerField(default=0, verbose_name="Всего боксов")
-    creation_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
-    price_per_month = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена за месяц от")
-    preview_image = models.ImageField(upload_to='warehouse_preview_images/', verbose_name="Изображение")
-    description = models.CharField(max_length=200, verbose_name="Описание (например Рядом с метро)")
+    number_of_boxes = models.PositiveIntegerField(
+        default=0, verbose_name="Всего боксов"
+    )
+    creation_date = models.DateTimeField(
+        auto_now_add=True, verbose_name="Дата создания"
+    )
+    price_per_month = models.DecimalField(
+        max_digits=10, decimal_places=2, verbose_name="Цена за месяц от"
+    )
+    preview_image = models.ImageField(
+        upload_to="warehouse_preview_images/", verbose_name="Изображение"
+    )
+    description = models.CharField(
+        max_length=200, verbose_name="Описание (например Рядом с метро)"
+    )
     temperature = models.IntegerField(verbose_name="Температура")
     ceiling_height = models.PositiveIntegerField(verbose_name="Высота потолка")
     full_description = models.TextField(verbose_name="Полное описание")
-
 
     class Meta:
         verbose_name = "Склад"
@@ -25,11 +34,16 @@ class Warehouse(models.Model):
 
 
 class WarehouseImage(models.Model):
-    warehouse = models.ForeignKey(Warehouse, related_name='images', on_delete=models.CASCADE)
-    full_image = models.ImageField(upload_to='warehouse_full_images/', verbose_name="Полное изображение")
+    warehouse = models.ForeignKey(
+        Warehouse, related_name="images", on_delete=models.CASCADE
+    )
+    full_image = models.ImageField(
+        upload_to="warehouse_full_images/", verbose_name="Полное изображение"
+    )
 
     def __str__(self):
         return f"Изображение для {self.warehouse.address}"
+
 
 class Box(models.Model):
     TYPES = [
@@ -42,18 +56,24 @@ class Box(models.Model):
         Warehouse, on_delete=models.CASCADE, related_name="boxes", verbose_name="Склад"
     )
     number = models.CharField(max_length=99, unique=True)
-    box_type = models.CharField(max_length=30, choices=TYPES, verbose_name="Размер бокса")
+    box_type = models.CharField(
+        max_length=30, choices=TYPES, verbose_name="Размер бокса"
+    )
     status = models.CharField(
         max_length=20,
         choices=[
             ("свободен", "Свободен"),
             ("занят", "Занят"),
-             ("в обработке", "В обработке"),
+            ("в обработке", "В обработке"),
         ],
-        default="свободен", verbose_name="Статус"
+        default="свободен",
+        verbose_name="Статус",
     )
     price_per_month = models.DecimalField(
-        max_digits=10, decimal_places=2, help_text="Цена в месяц в рублях", verbose_name="Цена за месяц"
+        max_digits=10,
+        decimal_places=2,
+        help_text="Цена в месяц в рублях",
+        verbose_name="Цена за месяц",
     )
     release_date = models.DateField(blank=True, null=True, verbose_name="Дата создания")
 
