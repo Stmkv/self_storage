@@ -123,9 +123,6 @@ class Order(models.Model):
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
 
-    def save(self, *args, **kwargs):
-        pass
-
 
 class AboutUs(models.Model):
     title = models.CharField(verbose_name="заголовок", max_length=200)

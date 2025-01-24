@@ -1,12 +1,6 @@
 document.querySelectorAll('.SelfStorage__btn2_green').forEach(button => {
   button.addEventListener('click', function () {
     const warehouseId = this.dataset.warehouseId
-    if (!warehouseId) {
-      console.error('ID склада отсутствует!')
-      return
-    }
-
-    console.log(`Отправляется запрос для склада с ID: ${warehouseId}`)
 
     fetch(`/warehouses/${warehouseId}/boxes/`, {
       method: 'GET',
@@ -38,8 +32,13 @@ document.querySelectorAll('.SelfStorage__btn2_green').forEach(button => {
                           <div class="col-6 col-md-4 col-lg-3 d-flex justify-content-center align-items-center">
                               <span class="fs_24">Цена: ${box.price_per_month} ₽</span>
                           </div>
+                          <div class="col-12 col-lg-3">
+                        <a href="/order/?box_id=${box.id}&box_type=${box.box_type}&warehouse_id=${box.warehouse_id}&price=${box.price_per_month}" class="btn my-2 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange border-8">
+                          Оформить заказ
+                        </a>
+                          </div>
                       </a>
-                  `
+                    `
           })
         }
       })

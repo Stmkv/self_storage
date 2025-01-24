@@ -1,7 +1,9 @@
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 
-from storage.models import AboutUs, Warehouse
+from storage.models import AboutUs, Box, Order, Warehouse
+from users.models import CustomUser
 
 from .forms import DateRangeForm
 
@@ -47,12 +49,40 @@ def my_rent_empty(request):
 
 
 def order(request):
+    if request.method == "POST":
+        form = DateRangeForm(request.POST)
+        if form.is_valid():
+            start_date = form.cleaned_data["start_date"]
+            end_date = form.cleaned_data["end_date"]
+            address = form.cleaned_data["address"]
+            day_rent = (end_date - start_date).days
+
+            one_day_price = float(request.GET.get("price")) / 30
+            price_for_user = round(one_day_price * day_rent, 0)
+
+            box_id = request.GET.get("box_id")
+            box = Box.objects.get(pk=box_id)
+            if request.user.is_authenticated:
+                user = CustomUser.objects.get(email=request.user.email)
+                order, created = Order.objects.get_or_create(
+                    start_storage=start_date,
+                    end_storage=end_date,
+                    client=user,
+                    box=box,
+                    address=address,
+                    price=price_for_user,
+                )
+                box.status = "занят"
+                box.save()
+                return redirect(
+                    reverse("users:my-rent"),
+                )
+
     form = DateRangeForm()
     return render(request, "order.html", {"form": form})
 
 
 def get_boxes_by_warehouse(request, warehouse_id):
-    print(warehouse_id)
     warehouse = get_object_or_404(Warehouse, id=warehouse_id)
     boxes = warehouse.boxes.filter(status="свободен")
 
