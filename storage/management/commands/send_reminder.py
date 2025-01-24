@@ -1,12 +1,11 @@
-import datetime
-from django.utils import timezone
 import smtplib
+from datetime import timedelta
+from django.utils import timezone
 from django.core.mail import send_mail
 from django.conf import settings
-from datetime import timedelta
-from storage.models import Box, Order
 from django.db.models import Q
 from django.core.management.base import BaseCommand
+from storage.models import Box
 
 
 class Command(BaseCommand):
@@ -23,41 +22,36 @@ class Command(BaseCommand):
         before_29_days = time_now + timedelta(days=29)
         before_31_days = time_now + timedelta(days=31)
 
-        boxes_in_storage = Box.objects.filter(status='занят').filter(
-            Q(end_storage__gt=before_4_days) & Q(end_storage__lt=before_2_days) |
-            Q(end_storage__gt=before_15_days) & Q(end_storage__lt=before_13_days) |
-            Q(end_storage__gt=before_22_days) & Q(end_storage__lt=before_20_days) |
-            Q(end_storage__gt=before_31_days) & Q(end_storage__lt=before_29_days)
+        boxes_in_storage = Box.objects.filter(status='занят').prefetch_related('order').filter(
+            Q(order__end_storage__gt=before_2_days) & Q(order__end_storage__lt=before_4_days) |
+            Q(order__end_storage__gt=before_13_days) & Q(order__end_storage__lt=before_15_days) |
+            Q(order__end_storage__gt=before_20_days) & Q(order__end_storage__lt=before_22_days) |
+            Q(order__end_storage__gt=before_29_days) & Q(order__end_storage__lt=before_31_days)
         )
         for box in boxes_in_storage:
-            end_storage = Order.objects.get(box=box).end_storage
-            print(end_storage)
-            client_email = Order.objects.get(box=box).client.email
-            print(client_email)
             try:
                 send_mail(
                     # title:
                     'напоминание',
                     # message:
-                    f'конец срока хранения {end_storage.date()}.\n' 
+                    f'Конец срока хранения {box.order.end_storage.date()}.\n'
                     f'Вы можете забрать вещи сами или заказать доставку.',
                     # from:
                     settings.EMAIL_HOST_USER,
                     # to:
-                    [client_email ],
+                    [box.order.client.email],
                     fail_silently=False,
                 )
-                self.stdout.write(self.style.SUCCESS(f'Reminder sent to {client_email}'))
+                self.stdout.write(self.style.SUCCESS(f'1 Письмо отправлено {box.order.client.email}: конец срока хранения {box.order.end_storage.date()}.'))
             except smtplib.SMTPRecipientsRefused as e:
                 self.stdout.write(self.style.ERROR(f'Error sending email:  {e}'))
 
-        before_1_day = time_now + timedelta(days=2)
-        after_1_day = time_now + timedelta(days=4)
+        yesterday = time_now - timedelta(days=1)
+        tomorrow = time_now + timedelta(days=1)
 
-        pick_up_today = Box.objects.filter(status='занят').filter(
-            Q(end_storage__gt=before_1_day) & Q(end_storage__lt=after_1_day))
+        pick_up_today = Box.objects.filter(status='занят').prefetch_related('order').filter(
+            Q(order__end_storage__gt=yesterday) & Q(order__end_storage__lt=tomorrow))
         for box in pick_up_today:
-            client_email = Order.object.get(box=box).client.email
             try:
                 send_mail(
                     # title:
@@ -69,10 +63,10 @@ class Command(BaseCommand):
                     # from:
                     settings.EMAIL_HOST_USER,
                     # to:
-                    [client_email],
+                    [box.order.client.email],
                     fail_silently=False,
                 )
-                self.stdout.write(self.style.SUCCESS(f'Reminder sent to {client_email}'))
+                self.stdout.write(self.style.SUCCESS(f'2 Письмо отправлено {box.order.client.email}: конец срока хранения {box.get_end_storage().date()}.'))
             except smtplib.SMTPRecipientsRefused as e:
                 self.stdout.write(self.style.ERROR(f'Error sending email:  {e}'))
 
@@ -89,18 +83,16 @@ class Command(BaseCommand):
         after_179_days = time_now - timedelta(days=179)
         after_181_days = time_now - timedelta(days=181)
 
-        expired_boxes = Box.objects.filter(status='занят').filter(
-             Q(end_storage__gt=after_31_days) & Q(end_storage__lt=after_29_days) |
-            Q(end_storage__gt=after_61_days) & Q(end_storage__lt=after_59_days) |
-            Q(end_storage__gt=after_91_days) & Q(end_storage__lt=after_89_days) |
-            Q(end_storage__gt=after_121_days) & Q(end_storage__lt=after_119_days) |
-            Q(end_storage__gt=after_151_days) & Q(end_storage__lt=after_149_days) |
-            Q(end_storage__gt=after_181_days) & Q(end_storage__lt=after_179_days)
+        expired_boxes = Box.objects.filter(status='занят').prefetch_related('order').filter(
+            Q(order__end_storage__gt=after_31_days) & Q(order__end_storage__lt=after_29_days) |
+            Q(order__end_storage__gt=after_61_days) & Q(order__end_storage__lt=after_59_days) |
+            Q(order__end_storage__gt=after_91_days) & Q(order__end_storage__lt=after_89_days) |
+            Q(order__end_storage__gt=after_121_days) & Q(order__end_storage__lt=after_119_days) |
+            Q(order__end_storage__gt=after_151_days) & Q(order__end_storage__lt=after_149_days) |
+            Q(order__end_storage__gt=after_181_days) & Q(order__end_storage__lt=after_179_days)
         )
         for box in expired_boxes:
-            end_storage = Order.objects.get(box=box).end_storage
-            pick_up_time = end_storage + timedelta(days=180)
-            client_email = Order.objects.get(box=box).client.email
+            pick_up_time = box.get_end_storage() + timedelta(days=180)
             try:
                 send_mail(
                     # title:
@@ -111,9 +103,9 @@ class Command(BaseCommand):
                     # from:
                     settings.EMAIL_HOST_USER,
                     # to:
-                    [box.client.email],
+                    [box.order.client.email],
                     fail_silently=False,
                 )
-                self.stdout.write(self.style.SUCCESS(f'Reminder sent to {client_email}'))
+                self.stdout.write(self.style.SUCCESS(f'3 Письмо отправлено {box.order.client.email}: конец срока хранения {box.get_end_storage().date()}.'))
             except smtplib.SMTPRecipientsRefused as e:
                 self.stdout.write(self.style.ERROR(f'Error sending email:  {e}'))
