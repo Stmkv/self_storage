@@ -1,15 +1,20 @@
 from django.shortcuts import render
 
-from storage.models import AboutUs, Warehouse
+from storage.models import AboutUs, Box, Warehouse
+
 from .forms import DateRangeForm
 
 
 # Create your views here.
 def boxes(request):
-    warehouses = Warehouse.objects.all()
+    warehouses = Warehouse.objects.prefetch_related("boxes").all()
+    for warehouse in warehouses:
+        warehouse.free_boxes = warehouse.boxes.filter(status="свободен").count()
     context = {
         "user_auth": request.user.is_authenticated,
         "warehouses": warehouses,
+        "boxes": boxes,
+        "warehouse": warehouse,
     }
     return render(request, "boxes.html", context)
 
@@ -43,4 +48,3 @@ def my_rent_empty(request):
 def order(request):
     form = DateRangeForm()
     return render(request, "order.html", {"form": form})
-
