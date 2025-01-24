@@ -220,6 +220,13 @@ def confirm_order_inactive(request, order_id):
         order.state = "inactive"
         order.save()
 
+        box = order.box
+        box.status = "свободен"
+        box.save()
+
+        order.box = None
+        order.save()
+
         return render(
             request,
             "open_box.html",
