@@ -62,8 +62,8 @@ def order(request):
             end_date = form.cleaned_data["end_date"]
             address = form.cleaned_data["address"]
             day_rent = (end_date - start_date).days
-
-            one_day_price = float(request.GET.get("price")) / 30
+            price = request.GET.get("price").replace(",", ".")
+            one_day_price = float(price) / 30
             price_for_user = round(one_day_price * day_rent, 0)
 
             box_id = request.GET.get("box_id")
