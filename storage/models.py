@@ -70,12 +70,6 @@ class Box(models.Model):
             self.number = f"{self.warehouse.id} - {last_number + 1}"
         super(Box, self).save(*args, **kwargs)
 
-    def get_end_storage(self):
-      try:
-        return self.order.end_storage
-      except Order.DoesNotExist:
-        return None
-
 
 ORDER_CHOICES = (
     ("todo", "принять в работу"),
@@ -108,9 +102,6 @@ class Order(models.Model):
     class Meta:
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
-
-    def save(self, *args, **kwargs):
-        pass
 
 
 class AboutUs(models.Model):
