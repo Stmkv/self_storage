@@ -4,12 +4,14 @@ from django.contrib.auth import views as auth_views
 from django.urls import path
 
 from .views import (
+    confirm_order_inactive,
     edit_profile,
     login_view,
     logout_view,
     my_rent_view,
     password_reset,
     register_view,
+    send_qr_code,
     upload_avatar,
 )
 
@@ -36,4 +38,10 @@ urlpatterns = [
         name="password_reset_complete",
     ),
     path("upload_avatar/", upload_avatar, name="upload-avatar"),
+    path("orders/<int:order_id>/send-qr/", send_qr_code, name="send_qr_code"),
+    path(
+        "orders/<int:order_id>/confirm/",
+        confirm_order_inactive,
+        name="confirm_order_inactive",
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

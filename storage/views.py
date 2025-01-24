@@ -14,10 +14,16 @@ def boxes(request):
     for warehouse in warehouses:
         warehouse.free_boxes = warehouse.boxes.filter(status="свободен").count()
     box_categories = {
-        "all": Box.objects.all(),
-        "to3": Box.objects.filter(area__lte=3),
-        "to10": Box.objects.filter(area__gt=3, area__lte=10),
-        "from10": Box.objects.filter(area__gt=10),
+        "all": Box.objects.all().exclude(status__in=["Занят", "В обработке"]),
+        "to3": Box.objects.filter(area__lte=3).exclude(
+            status__in=["Занят", "В обработке"]
+        ),
+        "to10": Box.objects.filter(area__gt=3, area__lte=10).exclude(
+            status__in=["Занят", "В обработке"]
+        ),
+        "from10": Box.objects.filter(area__gt=10).exclude(
+            status__in=["Занят", "В обработке"]
+        ),
     }
 
     context = {
@@ -86,21 +92,3 @@ def order(request):
 
     form = DateRangeForm()
     return render(request, "order.html", {"form": form})
-
-
-def get_boxes_by_warehouse(request, warehouse_id):
-    warehouse = get_object_or_404(Warehouse, id=warehouse_id)
-    boxes = warehouse.boxes.filter(status="свободен")
-
-    data = [
-        {
-            "id": box.id,
-            "number": box.number,
-            "box_type": box.get_box_type_display(),
-            "price_per_month": box.price_per_month,
-            "status": box.get_status_display(),
-        }
-        for box in boxes
-    ]
-
-    return JsonResponse({"warehouse": warehouse.address, "boxes": data})
