@@ -19,8 +19,8 @@ class WarehouseAdmin(admin.ModelAdmin):
 
 @admin.register(Box)
 class BoxAdmin(admin.ModelAdmin):
-    list_display = ("number", "box_type", "status", "price_per_month", "warehouse")
-    list_filter = ("status", "box_type", "warehouse")
+    list_display = ("number", "area", "status", "price_per_month", "warehouse")
+    list_filter = ("status", "area", "warehouse")
     search_fields = ("number",)
     ordering = ("number",)
     readonly_fields = ("number",)

@@ -1,6 +1,8 @@
 from django.db import models
-
+from django.core.exceptions import ValidationError
 from users.models import CustomUser
+from django.utils import timezone
+
 
 
 class Warehouse(models.Model):
@@ -31,24 +33,23 @@ class WarehouseImage(models.Model):
     def __str__(self):
         return f"Изображение для {self.warehouse.address}"
 
-class Box(models.Model):
-    TYPES = [
-        ("маленький до 3м", "Маленький до 3м"),
-        ("стандартный от 3м до 10м", "Стандартный от 3м до 10м"),
-        ("большой от 10м", "Большой от 10м"),
-    ]
 
+class Box(models.Model):
     warehouse = models.ForeignKey(
         Warehouse, on_delete=models.CASCADE, related_name="boxes", verbose_name="Склад"
     )
-    number = models.CharField(max_length=99, unique=True)
-    box_type = models.CharField(max_length=30, choices=TYPES, verbose_name="Размер бокса")
+    floor = models.CharField(max_length=1, verbose_name="Этаж")
+    area = models.FloatField(verbose_name="Площадь (м²)", editable=False)
+    length = models.FloatField(verbose_name="Длина (м)")
+    width = models.FloatField(verbose_name="Ширина (м)")
+    height = models.FloatField(verbose_name="Высота (м)")
+    number = models.CharField(max_length=99, unique=True, verbose_name="Номер бокса")
     status = models.CharField(
         max_length=20,
         choices=[
             ("свободен", "Свободен"),
             ("занят", "Занят"),
-             ("в обработке", "В обработке"),
+            ("в обработке", "В обработке"),
         ],
         default="свободен", verbose_name="Статус"
     )
@@ -62,13 +63,15 @@ class Box(models.Model):
         verbose_name_plural = "Боксы"
 
     def __str__(self):
-        return f"Бокс #{self.number} ({self.box_type}"
+        return f"Бокс #{self.number} ({self.area} м²)"
 
     def save(self, *args, **kwargs):
-        if not self.number:
+        self.area = self.length * self.width
+        if not self.pk:
             last_number = Box.objects.filter(warehouse=self.warehouse).count()
             self.number = f"{self.warehouse.id} - {last_number + 1}"
-        super(Box, self).save(*args, **kwargs)
+
+        super().save(*args, **kwargs)
 
 
 ORDER_CHOICES = (
