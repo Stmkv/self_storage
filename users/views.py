@@ -12,9 +12,11 @@ from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.http import urlsafe_base64_encode
+from django.utils.timezone import now
 from django.views.decorators.http import require_POST
 from phonenumber_field.phonenumber import PhoneNumber
 
+from storage.models import Order
 from users.models import CustomUser
 
 from .forms import UserRegisterForm
@@ -60,7 +62,27 @@ def login_view(request):
 
 @login_required
 def my_rent_view(request):
-    return render(request, "my-rent.html", {"user": request.user})
+    user = CustomUser.objects.get(email=request.user.email)
+    user_orders = Order.objects.filter(client=user).select_related(
+        "box", "box__warehouse"
+    )
+
+    orders_data = []
+    for order in user_orders:
+        time_left = (order.end_storage - now()).days
+        if order.box:
+            orders_data.append(
+                {
+                    "warehouse_address": order.box.warehouse.address,
+                    "box_number": order.box.number,
+                    "rental_period": f"{order.start_storage.strftime('%d.%m.%Y')} - {order.end_storage.strftime('%d.%m.%Y')}",
+                    "time_left": time_left,
+                }
+            )
+
+    return render(
+        request, "my-rent.html", {"user": request.user, "orders": orders_data}
+    )
 
 
 def logout_view(request):
