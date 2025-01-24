@@ -70,6 +70,12 @@ class Box(models.Model):
             self.number = f"{self.warehouse.id} - {last_number + 1}"
         super(Box, self).save(*args, **kwargs)
 
+    def get_end_storage(self):
+      try:
+        return self.order.end_storage
+      except Order.DoesNotExist:
+        return None
+
 
 ORDER_CHOICES = (
     ("todo", "принять в работу"),
@@ -90,7 +96,7 @@ class Order(models.Model):
     )
     date = models.DateField(auto_now_add=True)
     address = models.TextField("адрес", null=True, blank=True)
-    box = models.OneToOneField(Box, on_delete=models.CASCADE, null=True, blank=True)
+    box = models.OneToOneField(Box, on_delete=models.CASCADE, null=True, blank=True, related_name="order")
     price = models.PositiveIntegerField("цена", null=True, blank=True)
     state = models.CharField(
         "состояние", choices=ORDER_CHOICES, max_length=9, default="todo"
