@@ -13,11 +13,17 @@ def boxes(request):
     warehouses = Warehouse.objects.prefetch_related("boxes").all()
     for warehouse in warehouses:
         warehouse.free_boxes = warehouse.boxes.filter(status="свободен").count()
+    box_categories = {
+        "all": Box.objects.all(),
+        "to3": Box.objects.filter(area__lte=3),
+        "to10": Box.objects.filter(area__gt=3, area__lte=10),
+        "from10": Box.objects.filter(area__gt=10),
+    }
+
     context = {
         "user_auth": request.user.is_authenticated,
         "warehouses": warehouses,
-        "boxes": boxes,
-        "warehouse": warehouse,
+        "box_categories": box_categories,
     }
     return render(request, "boxes.html", context)
 
