@@ -39,23 +39,23 @@ class Box(models.Model):
     ]
 
     warehouse = models.ForeignKey(
-        Warehouse, on_delete=models.CASCADE, related_name="boxes"
+        Warehouse, on_delete=models.CASCADE, related_name="boxes", verbose_name="Склад"
     )
     number = models.CharField(max_length=99, unique=True)
-    box_type = models.CharField(max_length=30, choices=TYPES)
+    box_type = models.CharField(max_length=30, choices=TYPES, verbose_name="Размер бокса")
     status = models.CharField(
         max_length=20,
         choices=[
             ("свободен", "Свободен"),
             ("занят", "Занят"),
+             ("в обработке", "В обработке"),
         ],
-        default="свободен",
+        default="свободен", verbose_name="Статус"
     )
     price_per_month = models.DecimalField(
-        max_digits=10, decimal_places=2, help_text="Цена в месяц в рублях"
+        max_digits=10, decimal_places=2, help_text="Цена в месяц в рублях", verbose_name="Цена за месяц"
     )
-    release_date = models.DateField(blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
+    release_date = models.DateField(blank=True, null=True, verbose_name="Дата создания")
 
     class Meta:
         verbose_name = "Бокс"
