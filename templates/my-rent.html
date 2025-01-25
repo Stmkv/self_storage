@@ -119,7 +119,7 @@
                                         <button class="btn fs_24 px-5 py-3 text-white border-8 SelfStorage__bg_orange SelfStorage__btn2_orange mb-3"
                                                 onclick="sendQRCode({{ order.order_id }})">Открыть бокс</button>
                                     </div>
-                                    <a href="#" class="SelfStorage_orange">Нужна помощь?</a>
+                                    <a href="{% url "storage:faq" %}" class="SelfStorage_orange">Нужна помощь?</a>
                                 </div>
                                 <div class="modal fade"
                                      id="extendRentalModal{{ order.order_id }}"
@@ -135,7 +135,7 @@
                                                         data-bs-dismiss="modal"
                                                         aria-label="Закрыть"></button>
                                             </div>
-                                            <form action="{% url 'users:extend_rental' order.order_id %}" method="POST">
+                                            <form action="{% url 'users:extend_rental' order.order_id %}" method="post">
                                                 {% csrf_token %}
                                                 <div class="modal-body">
                                                     <label for="newEndDate{{ order.order_id }}" class="form-label">Выберите новую дату окончания:</label>
