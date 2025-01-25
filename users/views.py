@@ -10,8 +10,8 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.core.exceptions import ValidationError
 from django.core.mail import EmailMessage, send_mail
 from django.core.validators import validate_email
-from django.http import Http404, JsonResponse
-from django.shortcuts import redirect, render
+from django.http import Http404, HttpResponse, JsonResponse
+from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.http import urlsafe_base64_encode
@@ -236,3 +236,14 @@ def confirm_order_inactive(request, order_id):
         )
     except Order.DoesNotExist:
         raise Http404("Order not found")
+
+
+def extend_rental(request, order_id):
+    if request.method == "POST":
+        new_end_date = request.POST.get("new_end_date")
+        print(new_end_date)
+        order = get_object_or_404(Order, id=order_id)
+        order.end_storage = new_end_date
+        order.save()
+        return redirect("users:my-rent")
+    return HttpResponse("Invalid request", status=400)

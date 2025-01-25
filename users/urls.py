@@ -6,6 +6,7 @@ from django.urls import path
 from .views import (
     confirm_order_inactive,
     edit_profile,
+    extend_rental,
     login_view,
     logout_view,
     my_rent_view,
@@ -44,4 +45,5 @@ urlpatterns = [
         confirm_order_inactive,
         name="confirm_order_inactive",
     ),
+    path("extend-rental/<int:order_id>/", extend_rental, name="extend_rental"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
