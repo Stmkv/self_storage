@@ -52,7 +52,7 @@
                                    name="password2"
                                    class="form-control border-8 mb-4 py-3 px-5 border-0 fs_24 SelfStorage__bg_lightgrey"
                                    placeholder="Подтверждение пароля">
-                            <span class="fw-light SelfStorage_grey">Нажимая на кнопку, вы подтверждаете свое <a href="#" class="SelfStorage_grey">согласие на обработку персональных данных</a></span>
+                            <span class="fw-light SelfStorage_grey">Нажимая на кнопку, вы подтверждаете свое <a href="{% url "storage:agreement" %}" class="SelfStorage_grey">согласие на обработку персональных данных</a></span>
                             <div id="register-errors" class="text-danger mb-3"></div>
                             <button type="submit"
                                     class="btn border-8 py-3 px-5 mt-5 mb-3 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange">

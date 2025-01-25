@@ -1,5 +1,6 @@
-<a href="/order/?box_id={{ box.id }}&box_type={{ box.box_type }}&warehouse_id={{ box.warehouse_id }}&price={{ box.price_per_month }}"
-   class="row text-decoration-none py-3 px-4 mt-5 SelfStorage__boxlink">
+<a href="{% if user.is_authenticated %} /order/?box_id={{ box.id }}&box_type={{ box.box_type }}&warehouse_id={{ box.warehouse_id }}&price={{ box.price_per_month }} {% else %} # {% endif %}"
+   class="row text-decoration-none py-3 px-4 mt-5 SelfStorage__boxlink"
+   {% if not user.is_authenticated %}data-bs-toggle="modal" data-bs-target="#SignModal"{% endif %}>
     <div class="col-12 col-md-4 col-lg-3 d-flex justify-content-center align-items-center">
         <span class="SelfStorage_green fs_24 me-2">{{ box.floor }} эт.</span><span class="fs_24">№{{ box.number }}</span>
     </div>
@@ -10,6 +11,8 @@
         <span class="fs_24">{{ box.length }} x {{ box.width }} x {{ box.height }} м</span>
     </div>
     <div class="col-12 col-lg-3">
-        <span class="btn my-2 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange border-8">От {{ box.price_per_month }} ₽</span>
+        <span class="btn my-2 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange border-8">
+            От {{ box.price_per_month }} ₽
+        </span>
     </div>
 </a>

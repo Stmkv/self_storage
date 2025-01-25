@@ -92,3 +92,7 @@ def order(request):
 
     form = DateRangeForm()
     return render(request, "order.html", {"form": form})
+
+
+def agreement(request):
+    return render(request, "agreement.html")

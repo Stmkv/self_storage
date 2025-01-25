@@ -30,7 +30,7 @@
                         Рассчитать стоимость
                     </button>
                     <div id="calc-errors" class="text-danger mb-3"></div>
-                    <span class="text-center fw-light">Нажимая на кнопку, вы подтверждаете свое <a href="#" class="link-dark">согласие на обработку персональных данных</a></span>
+                    <span class="text-center fw-light">Нажимая на кнопку, вы подтверждаете свое <a href="{% url "storage:agreement" %}" class="link-dark">согласие на обработку персональных данных</a></span>
                 </form>
             </div>
             <div class="col-12 col-lg-6 SelfStorage__img"></div>
@@ -325,7 +325,7 @@
                         <div id="calc-errors2" class="text-danger mb-3"></div>
                     </div>
                 </form>
-                <span class="text-white text-center fw-light">Нажимая на кнопку, вы подтверждаете свое <a href="#" class="text-white">согласие на обработку персональных данных</a></span>
+                <span class="text-white text-center fw-light">Нажимая на кнопку, вы подтверждаете свое <a href="{% url "storage:agreement" %}" class="text-white">согласие на обработку персональных данных</a></span>
             </div>
         </div>
     </aside>
