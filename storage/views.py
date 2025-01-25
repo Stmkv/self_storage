@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
@@ -10,20 +10,18 @@ from .forms import DateRangeForm
 
 # Create your views here.
 def boxes(request):
-    warehouses = Warehouse.objects.prefetch_related("boxes").all()
+    warehouses = Warehouse.objects.prefetch_related(
+        Prefetch('boxes', queryset=Box.objects.filter(status="свободен"))
+    ).all()
+
     for warehouse in warehouses:
         warehouse.free_boxes = warehouse.boxes.filter(status="свободен").count()
+
     box_categories = {
-        "all": Box.objects.all().exclude(status__in=["Занят", "В обработке"]),
-        "to3": Box.objects.filter(area__lte=3).exclude(
-            status__in=["Занят", "В обработке"]
-        ),
-        "to10": Box.objects.filter(area__gt=3, area__lte=10).exclude(
-            status__in=["Занят", "В обработке"]
-        ),
-        "from10": Box.objects.filter(area__gt=10).exclude(
-            status__in=["Занят", "В обработке"]
-        ),
+        "all": Box.objects.filter(status="свободен"),
+        "to3": Box.objects.filter(area__lte=3, status="свободен"),
+        "to10": Box.objects.filter(area__gt=3, area__lte=10, status="свободен"),
+        "from10": Box.objects.filter(area__gt=10, status="свободен"),
     }
 
     context = {
