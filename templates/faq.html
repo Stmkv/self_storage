@@ -26,7 +26,6 @@
                             aria-controls="content-{{ item.id }}"
                             aria-selected="{{ forloop.first|yesno:'true,false' }}">{{ item.title }}</button>
                 {% endfor %}
-
             </div>
             <div class="col-lg-9">
                 <div class="card tab-content p-5">
@@ -43,12 +42,10 @@
                                        href="#collapse-{{ text.id }}"
                                        role="button"
                                        aria-expanded="false"
-                                       aria-controls="collapse-{{ text.id }}">
-                                        {{ text.question }}
-                                    </a>
+                                       aria-controls="collapse-{{ text.id }}">{{ text.question }}</a>
                                 </p>
                                 <div class="collapse" id="collapse-{{ text.id }}">
-                                    <span>{{ text.answer }}</span>
+                                    <span>{{ text.answer|safe }}</span>
                                 </div>
                             {% endfor %}
                         </div>
@@ -62,22 +59,22 @@
             <div class="d-flex flex-column align-items-center">
                 <h1 class="text-white text-center fw-bold mb-4">Остались вопросы?</h1>
                 <h4 class="text-white text-center fw-light">Оставьте заявку и наши менеджеры свяжутся с вами в ближайшее время</h4>
-                <form class="row my-4">
-                    <div class="col-12 col-lg-6">
-                        <input type="text"
-                               required
-                               name="EMAIL2"
-                               class="form-control border-8 mb-4 me-3 py-3 px-5 border-0 fs_24 SelfStorage__bg_lightgrey"
-                               placeholder="Укажите ваш e-mail">
-                    </div>
-                    <div class="col-12 col-lg-6">
-                        <button class="btn w-100 border-8 py-3 px-5 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange">
-                            Рассчитать стоимость
-                        </button>
-                    </div>
+                <form class="" id="calc-form">
+                    {% csrf_token %}
+                    <input type="text"
+                           required
+                           name="EMAIL1"
+                           class="form-control border-8 mb-4 py-3 px-5 border-0 fs_24 SelfStorage__bg_lightgrey"
+                           placeholder="Укажите ваш e-mail">
+                    <button type="submit"
+                            class="btn border-8 py-3 px-5 w-100 text-white fs_24 SelfStorage__bg_orange SelfStorage__btn2_orange">
+                        Рассчитать стоимость
+                    </button>
+                    <div id="calc-errors" class="text-danger mb-3"></div>
+                    <span class="text-center fw-light">Нажимая на кнопку, вы подтверждаете свое <a href="{% url "storage:agreement" %}" class="link-dark">согласие на обработку персональных данных</a></span>
                 </form>
-                <span class="text-white text-center fw-light">Нажимая на кнопку, вы подтверждаете свое <a href="#" class="text-white">согласие на обработку персональных данных</a></span>
             </div>
         </div>
     </aside>
+    <script src="{% static 'js/get_email.js' %}"></script>
 {% endblock content %}
