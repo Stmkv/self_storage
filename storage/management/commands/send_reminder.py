@@ -92,7 +92,7 @@ class Command(BaseCommand):
             Q(order__end_storage__gt=after_181_days) & Q(order__end_storage__lt=after_179_days)
         )
         for box in expired_boxes:
-            pick_up_time = box.get_end_storage() + timedelta(days=180)
+            pick_up_time = box.order.end_storage + timedelta(days=180)
             try:
                 send_mail(
                     # title:
