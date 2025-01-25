@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  web:
+    build:
+      context: .
+    command: /app/start.sh web
+    volumes:
+      - .:/app
+      - ./static:/app/static
+    ports:
+      - '80:8000'
+    restart: always
