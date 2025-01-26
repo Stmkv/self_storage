@@ -1,5 +1,6 @@
 from django.db import models
 
+from self_storage.settings import BASE_URL
 from users.models import CustomUser
 
 
@@ -161,7 +162,7 @@ class Link(models.Model):
 
     @property
     def shortened_url(self):
-        return f"http://127.0.0.1:8000/track/{self.link_number}"
+        return f"http://{BASE_URL}/track/{self.link_number}"
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
