@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.timezone import now
 
 from storage.models import AboutUs, Box, Order, Text, Warehouse, WarehouseImage
 
@@ -26,6 +27,37 @@ class BoxAdmin(admin.ModelAdmin):
     readonly_fields = ("number",)
 
 
+@admin.register(AboutUs)
+class AboutUsAdmin(admin.ModelAdmin):
+    list_display = ("title",)
+    search_fields = ("title",)
+
+
+@admin.register(Text)
+class TextAdmin(admin.ModelAdmin):
+    list_display = ("title", "question", "answer")
+    search_fields = ("title",)
+    list_filter = ("title",)
+
+
+class ExpiredOrdersFilter(admin.SimpleListFilter):
+    title = "Просроченные заказы"
+    parameter_name = "expired"
+
+    def lookups(self, request, model_admin):
+        return [
+            ("yes", "Просроченные"),
+            ("no", "Не просроченные"),
+        ]
+
+    def queryset(self, request, queryset):
+        if self.value() == "yes":
+            return queryset.filter(end_storage__lt=now())
+        if self.value() == "no":
+            return queryset.filter(end_storage__gte=now())
+        return queryset
+
+
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = (
@@ -42,19 +74,7 @@ class OrderAdmin(admin.ModelAdmin):
         "state",
     )
     list_filter = (
+        ExpiredOrdersFilter,
         "client",
         "state",
     )
-
-
-@admin.register(AboutUs)
-class AboutUsAdmin(admin.ModelAdmin):
-    list_display = ("title",)
-    search_fields = ("title",)
-
-
-@admin.register(Text)
-class TextAdmin(admin.ModelAdmin):
-    list_display = ("title", "question", "answer")
-    search_fields = ("title",)
-    list_filter = ("title",)
