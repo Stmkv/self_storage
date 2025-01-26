@@ -1,5 +1,8 @@
 from django.contrib import admin
+from django.db import models
 from django.utils.timezone import now
+from unfold.admin import ModelAdmin
+from unfold.contrib.forms.widgets import WysiwygWidget
 
 from storage.models import AboutUs, Box, Link, Order, Text, Warehouse, WarehouseImage
 
@@ -10,7 +13,7 @@ class WarehouseImageInline(admin.TabularInline):
 
 
 @admin.register(Warehouse)
-class WarehouseAdmin(admin.ModelAdmin):
+class WarehouseAdmin(ModelAdmin):
     list_display = ("city", "address", "number_of_boxes", "creation_date")
     search_fields = ("address",)
     list_filter = ("creation_date",)
@@ -19,7 +22,7 @@ class WarehouseAdmin(admin.ModelAdmin):
 
 
 @admin.register(Box)
-class BoxAdmin(admin.ModelAdmin):
+class BoxAdmin(ModelAdmin):
     list_display = ("number", "area", "status", "price_per_month", "warehouse")
     list_filter = ("status", "area", "warehouse")
     search_fields = ("number",)
@@ -28,16 +31,20 @@ class BoxAdmin(admin.ModelAdmin):
 
 
 @admin.register(AboutUs)
-class AboutUsAdmin(admin.ModelAdmin):
+class AboutUsAdmin(ModelAdmin):
     list_display = ("title",)
     search_fields = ("title",)
 
 
 @admin.register(Text)
-class TextAdmin(admin.ModelAdmin):
+class TextAdmin(ModelAdmin):
     list_display = ("title", "question", "answer")
     search_fields = ("title",)
     list_filter = ("title",)
+
+    formfield_overrides = {
+        models.TextField: {"widget": WysiwygWidget},
+    }
 
 
 class ExpiredOrdersFilter(admin.SimpleListFilter):
@@ -59,7 +66,7 @@ class ExpiredOrdersFilter(admin.SimpleListFilter):
 
 
 @admin.register(Order)
-class OrderAdmin(admin.ModelAdmin):
+class OrderAdmin(ModelAdmin):
     list_display = (
         "client",
         "address",
@@ -81,7 +88,7 @@ class OrderAdmin(admin.ModelAdmin):
 
 
 @admin.register(Link)
-class LinkAdmin(admin.ModelAdmin):
+class LinkAdmin(ModelAdmin):
     list_display = ("link_number", "shortened_url", "click_count")
 
     def save_model(self, request, obj, form, change):

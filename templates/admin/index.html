@@ -1,0 +1,36 @@
+{% extends 'unfold/layouts/base_simple.html' %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}{% endblock %}
+{% block title %}
+    {% if subtitle %}{{ subtitle }} |{% endif %}
+    {{ title }} | {{ site_title|default:_("Django site admin") }}
+{% endblock %}
+{% block branding %}
+    <h1 id="site-name">
+        <a href="{% url 'admin:index' %}">{{ site_header|default:_("Django administration") }}</a>
+    </h1>
+{% endblock %}
+{% block content %}
+    <h1>Привет! Это админ панель для сайта Self Storage</h1>
+    <br>
+    <ul>
+        ТУТ МОЖНО:
+        <ol>
+            1. Создать ссылки для рекламных комапний
+        </ol>
+        <ol>
+            2. Посмотреть заказы, а также просроченные заказы
+        </ol>
+        <ol>
+            3. Обновить FAQ для сайта
+        </ol>
+        <ol>
+            4. Добавить новые склада и боксы
+        </ol>
+    </ul>
+    <br>
+    <br>
+    <p>Дальнейшие инструкции в разработке....</p>
+{% endblock %}
