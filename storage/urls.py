@@ -11,4 +11,5 @@ urlpatterns = [
     path("my-rent-empty/", views.my_rent_empty, name="my-rent-empty"),
     path("order/", views.order, name="order"),
     path("agreement/", views.agreement, name="agreement"),
+    path("track/<int:link_number>/", views.track_link, name="track_link"),
 ]

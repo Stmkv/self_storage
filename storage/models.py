@@ -109,7 +109,9 @@ class Order(models.Model):
     )
     date = models.DateField(auto_now_add=True)
     address = models.TextField("адрес", null=True, blank=True)
-    box = models.OneToOneField(Box, on_delete=models.CASCADE, null=True, blank=True, related_name="order")
+    box = models.OneToOneField(
+        Box, on_delete=models.CASCADE, null=True, blank=True, related_name="order"
+    )
     price = models.PositiveIntegerField("цена", null=True, blank=True)
     state = models.CharField(
         "состояние", choices=ORDER_CHOICES, max_length=9, default="todo"
@@ -147,3 +149,19 @@ class Text(models.Model):
     class Meta:
         verbose_name = "Текст"
         verbose_name_plural = "Тексты"
+
+
+class Link(models.Model):
+    original_url = models.URLField()
+    click_count = models.PositiveIntegerField(default=0)
+    link_number = models.PositiveIntegerField(unique=True)
+
+    def __str__(self):
+        return f"{self.link_number} -> {self.original_url}"
+
+    @property
+    def shortened_url(self):
+        return f"http://127.0.0.1:8000/track/{self.link_number}"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)

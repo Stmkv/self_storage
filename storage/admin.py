@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.timezone import now
 
-from storage.models import AboutUs, Box, Order, Text, Warehouse, WarehouseImage
+from storage.models import AboutUs, Box, Link, Order, Text, Warehouse, WarehouseImage
 
 
 class WarehouseImageInline(admin.TabularInline):
@@ -78,3 +78,11 @@ class OrderAdmin(admin.ModelAdmin):
         "client",
         "state",
     )
+
+
+@admin.register(Link)
+class LinkAdmin(admin.ModelAdmin):
+    list_display = ("link_number", "shortened_url", "click_count")
+
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)

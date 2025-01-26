@@ -2,7 +2,7 @@ from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 
-from storage.models import AboutUs, Box, Order, Warehouse
+from storage.models import AboutUs, Box, Link, Order, Warehouse
 from users.models import CustomUser
 
 from .forms import DateRangeForm
@@ -11,7 +11,7 @@ from .forms import DateRangeForm
 # Create your views here.
 def boxes(request):
     warehouses = Warehouse.objects.prefetch_related(
-        Prefetch('boxes', queryset=Box.objects.filter(status="свободен"))
+        Prefetch("boxes", queryset=Box.objects.filter(status="свободен"))
     ).all()
 
     for warehouse in warehouses:
@@ -94,3 +94,11 @@ def order(request):
 
 def agreement(request):
     return render(request, "agreement.html")
+
+
+def track_link(request, link_number):
+    link = get_object_or_404(Link, link_number=link_number)
+    link.click_count += 1
+    link.save()
+
+    return redirect(link.original_url)
