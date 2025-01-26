@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.db import models
+from django.db.models import Q
 from django.utils.timezone import now
 from unfold.admin import ModelAdmin
 from unfold.contrib.forms.widgets import WysiwygWidget
@@ -59,7 +60,7 @@ class ExpiredOrdersFilter(admin.SimpleListFilter):
 
     def queryset(self, request, queryset):
         if self.value() == "yes":
-            return queryset.filter(end_storage__lt=now())
+            return queryset.filter(end_storage__lt=now(), state__in=["todo", "true", "topay", "false"])
         if self.value() == "no":
             return queryset.filter(end_storage__gte=now())
         return queryset
