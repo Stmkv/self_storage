@@ -110,7 +110,7 @@ class Order(models.Model):
     )
     date = models.DateField(auto_now_add=True)
     address = models.TextField("адрес", null=True, blank=True)
-    box = models.ForeignKey(
+    box = models.OneToOneField(
         Box, on_delete=models.CASCADE, null=True, blank=True, related_name="order"
     )
     price = models.PositiveIntegerField("цена", null=True, blank=True)
