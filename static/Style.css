@@ -173,3 +173,13 @@ body {
   background-color: #ff4500; /* Более темный оранжевый при наведении */
 }
 
+.avatar {
+  max-width: 300px;
+  max-height: 200px;
+}
+
+.box-preview{
+  max-width: 300px;
+  max-height: 200px;
+  border-radius: 20%;
+}
