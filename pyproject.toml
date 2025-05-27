@@ -1,0 +1,30 @@
+[project]
+name = "self-storage"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "django==5.1.5",
+    "django-phonenumber-field==8.0.0",
+    "django-unfold==0.45.0",
+    "environs==11.2.1",
+    "phonenumbers==8.13.53",
+    "pillow==11.1.0",
+    "qrcode==8.0",
+]
+
+
+[tool.djlint]
+profile = "django"
+blank_line_after_tag = "load,extends,include"
+ignore = "H006,H030,H031,H030,H021,H026,H016"
+
+[tool.djlint.js]
+indent_size = 5
+
+[dependency-groups]
+dev = [
+    "django-debug-toolbar==5.0.1",
+    "djlint==1.36.4",
+]
