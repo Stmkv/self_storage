@@ -19,7 +19,7 @@ from django.utils.timezone import now
 from django.views.decorators.http import require_POST
 from phonenumber_field.phonenumber import PhoneNumber
 
-from self_storage.settings import VPS_ADDRESS
+from self_storage.settings import VPS_ADDRESS, DEBUG
 from storage.models import Order
 from users.models import CustomUser
 
@@ -199,7 +199,9 @@ def generate_qr_code(data):
 
 def send_qr_code(request, order_id):
     order = Order.objects.get(id=order_id, client=request.user)
-    qr_data = f"http://{VPS_ADDRESS}/users/orders/{order.id}/confirm?user={order.client.email}"
+    if not DEBUG:
+        qr_data = f"http://{VPS_ADDRESS}/users/orders/{order.id}/confirm?user={order.client.email}"
+    qr_data = f"http://127.0.0.1:8000/users/orders/{order.id}/confirm?user={order.client.email}"
     qr_image = generate_qr_code(qr_data)
 
     email = EmailMessage(
