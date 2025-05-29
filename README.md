@@ -28,5 +28,5 @@ EMAIL_HOST_PASSWORD="qllx **** **** ****"
 После чего необходимо установить все зависимости командой
 
 ```
-pip install -r requirements.txt
+uv install
 ```
