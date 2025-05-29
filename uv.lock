@@ -86,14 +86,14 @@ wheels = [
 
 [[package]]
 name = "django-unfold"
-version = "0.45.0"
+version = "0.59.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "django" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ec/60/f552d46fff63f8021ff4dae5b04db61a64eed50a3fd5bbd76addc1d327e0/django_unfold-0.45.0.tar.gz", hash = "sha256:8ef4c7cdfdce93cedc4b893dced2b2a7092a03718150ef4fc68eda5516a8bccc", size = 751790 }
+sdist = { url = "https://files.pythonhosted.org/packages/fd/3b/bf66269ed66ba31ce7fd05927d657889ab9282637467c7bb03e46d83122c/django_unfold-0.59.0.tar.gz", hash = "sha256:ae252a1df8c09394dd66871dcf657d8001543b30920e63743ebce7f5f4ea0e6e", size = 1060771 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a3/fd/f4c7a00ca6b502b01a7c7f225530c4b861dbdc45c57abb576ee57a3a72af/django_unfold-0.45.0-py3-none-any.whl", hash = "sha256:4d11b9dccc20f48235d8038191f66a6b805875c97c934400b6ef48538e004b09", size = 824239 },
+    { url = "https://files.pythonhosted.org/packages/a7/26/4b1ada40884cf8863c06a01636c32157f59b36d91500f1db0e9a9896f3bc/django_unfold-0.59.0-py3-none-any.whl", hash = "sha256:ddd00241d84ec8ad337ce07666ede5dded8812279ed70b0eca45f65382492e06", size = 1163352 },
 ]
 
 [[package]]
@@ -303,7 +303,7 @@ dev = [
 requires-dist = [
     { name = "django", specifier = "==5.1.5" },
     { name = "django-phonenumber-field", specifier = "==8.0.0" },
-    { name = "django-unfold", specifier = "==0.45.0" },
+    { name = "django-unfold", specifier = ">=0.59.0" },
     { name = "environs", specifier = "==11.2.1" },
     { name = "phonenumbers", specifier = "==8.13.53" },
     { name = "pillow", specifier = "==11.1.0" },
