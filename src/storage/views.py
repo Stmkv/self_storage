@@ -42,8 +42,10 @@ def faq(request):
 
 
 def index(request):
+    warehouse_for_more_sales = Warehouse.objects.first()
     context = {
         "user_auth": request.user.is_authenticated,
+        "warehouse_for_more_sales": warehouse_for_more_sales,
     }
     if request.user.is_authenticated:
         context["user"] = request.user
