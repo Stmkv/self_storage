@@ -60,7 +60,9 @@ class ExpiredOrdersFilter(admin.SimpleListFilter):
 
     def queryset(self, request, queryset):
         if self.value() == "yes":
-            return queryset.filter(end_storage__lt=now(), state__in=["todo", "true", "topay", "false"])
+            return queryset.filter(
+                end_storage__lt=now(), state__in=["todo", "true", "topay", "false"]
+            )
         if self.value() == "no":
             return queryset.filter(end_storage__gte=now())
         return queryset

@@ -8,20 +8,27 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='RequestCalculation',
+            name="RequestCalculation",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('email', models.EmailField(max_length=254)),
-                ('create_at', models.DateTimeField(default=django.utils.timezone.now)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("email", models.EmailField(max_length=254)),
+                ("create_at", models.DateTimeField(default=django.utils.timezone.now)),
             ],
             options={
-                'verbose_name': 'Заявка',
-                'verbose_name_plural': 'Заявки',
+                "verbose_name": "Заявка",
+                "verbose_name_plural": "Заявки",
             },
         ),
     ]

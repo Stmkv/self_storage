@@ -71,7 +71,7 @@ warehouses_data = [
         "temperature": 17,
         "ceiling_height": 3,
         "full_description": "Полное описание",
-        "warehouseImage": ["image2.png", "photo8.png"]
+        "warehouseImage": ["image2.png", "photo8.png"],
     },
     {
         "city": "Одинцово",
@@ -84,7 +84,7 @@ warehouses_data = [
         "temperature": "18",
         "ceiling_height": "3",
         "full_description": "Полное описание",
-        "warehouseImage": ["image2.png", "photo8.png"]
+        "warehouseImage": ["image2.png", "photo8.png"],
     },
     {
         "city": "Пушкино",
@@ -97,7 +97,7 @@ warehouses_data = [
         "temperature": 20,
         "ceiling_height": 5,
         "full_description": "Полное описание",
-        "warehouseImage": ["image2.png", "photo8.png"]
+        "warehouseImage": ["image2.png", "photo8.png"],
     },
     {
         "city": "Люберцы",
@@ -110,7 +110,7 @@ warehouses_data = [
         "temperature": 18,
         "ceiling_height": 3,
         "full_description": "Полное описание",
-        "warehouseImage": ["image2.png", "photo8.png"]
+        "warehouseImage": ["image2.png", "photo8.png"],
     },
     {
         "city": "Домодедово",
@@ -123,8 +123,8 @@ warehouses_data = [
         "temperature": 21,
         "ceiling_height": 4,
         "full_description": "Полное описание",
-        "warehouseImage": ["image2.png", "photo8.png"]
-    }
+        "warehouseImage": ["image2.png", "photo8.png"],
+    },
 ]
 
 
@@ -143,21 +143,19 @@ class Command(BaseCommand):
 
         for warehouse_info in warehouses_data:
             warehouse, _ = Warehouse.objects.get_or_create(
-                city=warehouse_info['city'],
-                address=warehouse_info['address'],
-                number_of_boxes=warehouse_info['number_of_boxes'],
-                price_per_month=warehouse_info['price_per_month'],
-                preview_image=warehouse_info['preview_image'],
-                description=warehouse_info['description'],
-                temperature=warehouse_info['temperature'],
-                ceiling_height=warehouse_info['ceiling_height'],
-                full_description=warehouse_info['full_description'],
+                city=warehouse_info["city"],
+                address=warehouse_info["address"],
+                number_of_boxes=warehouse_info["number_of_boxes"],
+                price_per_month=warehouse_info["price_per_month"],
+                preview_image=warehouse_info["preview_image"],
+                description=warehouse_info["description"],
+                temperature=warehouse_info["temperature"],
+                ceiling_height=warehouse_info["ceiling_height"],
+                full_description=warehouse_info["full_description"],
             )
-            for image_name in warehouse_info['warehouseImage']:
+            for image_name in warehouse_info["warehouseImage"]:
                 WarehouseImage.objects.get_or_create(
-                    warehouse=warehouse,
-                    full_image=image_name
+                    warehouse=warehouse, full_image=image_name
                 )
-
 
         self.stdout.write(self.style.SUCCESS("База данных заполнена"))

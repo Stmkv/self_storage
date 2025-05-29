@@ -6,17 +6,25 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('storage', '0002_initial'),
+        ("storage", "0002_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Link',
+            name="Link",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('original_url', models.URLField()),
-                ('click_count', models.PositiveIntegerField(default=0)),
-                ('link_number', models.PositiveIntegerField(unique=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("original_url", models.URLField()),
+                ("click_count", models.PositiveIntegerField(default=0)),
+                ("link_number", models.PositiveIntegerField(unique=True)),
             ],
         ),
     ]

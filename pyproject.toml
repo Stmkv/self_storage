@@ -25,6 +25,7 @@ indent_size = 5
 
 [dependency-groups]
 dev = [
+    "black>=25.1.0",
     "django-debug-toolbar==5.0.1",
     "djlint==1.36.4",
 ]

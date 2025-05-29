@@ -10,29 +10,48 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('storage', '0001_initial'),
+        ("storage", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='order',
-            name='client',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='orders', to=settings.AUTH_USER_MODEL, verbose_name='клиент'),
+            model_name="order",
+            name="client",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="orders",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="клиент",
+            ),
         ),
         migrations.AddField(
-            model_name='text',
-            name='title',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='texts', to='storage.aboutus', verbose_name='название'),
+            model_name="text",
+            name="title",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="texts",
+                to="storage.aboutus",
+                verbose_name="название",
+            ),
         ),
         migrations.AddField(
-            model_name='box',
-            name='warehouse',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='boxes', to='storage.warehouse', verbose_name='Склад'),
+            model_name="box",
+            name="warehouse",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="boxes",
+                to="storage.warehouse",
+                verbose_name="Склад",
+            ),
         ),
         migrations.AddField(
-            model_name='warehouseimage',
-            name='warehouse',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='images', to='storage.warehouse'),
+            model_name="warehouseimage",
+            name="warehouse",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="images",
+                to="storage.warehouse",
+            ),
         ),
     ]
